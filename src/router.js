@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "./components/dashboardLayout";
+import InternList from "./pages/intern/internList";
 import AddIntern from "./pages/addIntern";
 import Login from "./pages/login";
 import { ProtectedLayout } from "./utils/routeGuard";
@@ -16,6 +17,15 @@ export default createBrowserRouter([
           {
             path: "/admin",
             children: [{ path: "/admin/add-intern", element: <AddIntern /> }],
+          },
+          {
+            path: "/intern",
+            children: [
+              {
+                path: "/intern/intern-list",
+                element: <InternList />,
+              },
+            ],
           },
         ],
       },
