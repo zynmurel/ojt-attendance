@@ -60,7 +60,9 @@ const DashboardLayout = () => {
             style={{ backgroundColor: "#ffff" }}
             className=" flex items-center justify-end"
           ></Header>
-          <Content>{outlet}</Content>
+          <Content className=" p-8" style={{ background: "#989ca4" }}>
+            {outlet}
+          </Content>
         </Layout>
       </Layout>
     </>
