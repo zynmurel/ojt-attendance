@@ -1,6 +1,8 @@
 // UI design
 import { Button, Card, Form, Input, Typography } from "antd";
+import { LOGIN_USER } from "../graphql/query";
 //text typography
+import { useLazyQuery } from "@apollo/client";
 const { Text } = Typography;
 // Rules and Validation
 const rules = {
@@ -10,19 +12,35 @@ const rules = {
       required: true,
       message: "password incorrect",
     },
-    {
-      validator: (_, value) => {
-        const regex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{8,})/;
-        if (!regex.test(value)) {
-          return Promise.reject(new Error("password incorrect!"));
-        }
-        return Promise.resolve();
-      },
-    },
+    // {
+    //   validator: (_, value) => {
+    //     const regex =
+    //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{8,})/;
+    //     if (!regex.test(value)) {
+    //       return Promise.reject(new Error("password incorrect!"));
+    //     }
+    //     return Promise.resolve();
+    //   },
+    // },
   ],
 };
 const Login = () => {
+  const [form] = Form.useForm();
+  // data in  Query
+  const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER, {
+    variables: {
+      username: form.getFieldValue("username"),
+      password: form.getFieldValue("password"),
+    },
+  });
+  // Condition in the admin to the dashboard
+  if (data && data.ojt_attendance_user.length !== 0) {
+    window.location = "/";
+  }
+
+  const onLogin = (value) => {
+    getUser();
+  };
   return (
     <div
       className=" h-screen w-full flex items-center justify-center"
@@ -41,7 +59,7 @@ const Login = () => {
             style={{ height: "37px" }}
           />
         </div>
-        <Form>
+        <Form form={form} onFinish={onLogin}>
           <div className=" mb-3">
             <Text>Username</Text>
           </div>
@@ -57,6 +75,7 @@ const Login = () => {
           <Button
             className="  text-white w-full"
             style={{ backgroundColor: "#102c34" }}
+            htmlType="submit"
           >
             Sign in
           </Button>
