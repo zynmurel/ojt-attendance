@@ -18,8 +18,8 @@ const onSearch = (value) => console.log(value);
 
 function CardAttendanceHeader() {
   return (
-    <Card className=" w-full h-22 " direction="horizontal">
-      <div className=" flex flex-row gap-20    items-center    ">
+    <Card className=" w-full   h-18 mb-10 " direction="horizontal   ">
+      <div className=" flex flex-row  gap-6    items-center    ">
         <Title level={3}>Intern Attendance</Title>
 
         <RangePicker
@@ -39,7 +39,7 @@ function CardAttendanceHeader() {
 
         <Button
           style={{ backgroundColor: "#a8acb4" }}
-          className=" flex flex-row  items-center h-12  w-50 "
+          className=" flex flex-row  items-center h-10  w-50 "
         >
           <AiOutlineFileExcel className=" mr-5  " fontSize={30} />
           <div> Export Excel </div>

@@ -44,6 +44,8 @@ const DashboardLayout = () => {
           style={{ backgroundColor: "#ffff" }}
           //   onCollapse={(value) => setCollapsed(value)}
         >
+          <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
+
           <Menu
             defaultSelectedKeys={["1"]}
             items={items}
@@ -57,10 +59,12 @@ const DashboardLayout = () => {
         </Sider>
         <Layout>
           <Header
-            style={{ backgroundColor: "#ffff" }}
-            className=" flex items-center justify-end"
-          ></Header>
-          <Content className=" p-8" style={{ background: "#989ca4" }}>
+            style={{ backgroundColor: "#ffff", padding: 0 }}
+            className=" flex items-center justify-start"
+          >
+            <img className="  w-1/6  " src="/InternAttendance.jpg" />
+          </Header>
+          <Content className=" p-8 pb-20" style={{ background: "#989ca4" }}>
             {outlet}
           </Content>
         </Layout>
