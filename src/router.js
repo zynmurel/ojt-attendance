@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
+import DashboardLayout from "./components/dashboardLayout";
 
 export default createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <DashboardLayout/>,
   },
 ]);
