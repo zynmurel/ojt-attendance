@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const items = [
     getItem(<AiOutlineDashboard />, "Dashboard", "/"),
-    getItem(<AiOutlineFileAdd />, "Add Intern", "/add-intern"),
+    getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
     getItem(<AiOutlineFileSearch />, "Intern List", "3"),
   ];
   function getItem(icon, label, key, children) {
