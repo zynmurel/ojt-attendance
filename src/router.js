@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "./components/dashboardLayout";
 import AddIntern from "./pages/addIntern";
+import Login from "./pages/login";
 
 export default createBrowserRouter([
   {
@@ -12,5 +13,9 @@ export default createBrowserRouter([
         element: <AddIntern/>
       }
     ]
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
