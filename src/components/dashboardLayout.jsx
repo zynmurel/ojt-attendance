@@ -14,11 +14,11 @@ const DashboardLayout = () => {
   //   const [collapsed, setCollapsed] = useState(false);
 
   const outlet = useOutlet();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const items = [
-    getItem(<AiOutlineDashboard />, "Dashboard", "1"),
-    getItem(<AiOutlineFileAdd />, "Add Intern", "2"),
-    getItem(<AiOutlineFileSearch />, "Intern List", "3"),
+    getItem(<AiOutlineDashboard />, "Dashboard", "/"),
+    getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
+    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
   ];
   function getItem(icon, label, key, children) {
     return {
@@ -28,9 +28,9 @@ const DashboardLayout = () => {
       label,
     };
   }
-  //   const handleMenuclick = ({ key }) => {
-  //     navigate(key);
-  //   };
+  const handleMenuclick = ({ key }) => {
+    navigate(key);
+  };
   return (
     <>
       <Layout
@@ -47,9 +47,9 @@ const DashboardLayout = () => {
           <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
 
           <Menu
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={["/"]}
             items={items}
-            // onClick={handleMenuclick}
+            onClick={handleMenuclick}
             mode="inline"
             style={{
               backgroundColor: "#ffff",
