@@ -14,10 +14,10 @@ const DashboardLayout = () => {
   //   const [collapsed, setCollapsed] = useState(false);
 
   const outlet = useOutlet();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const items = [
-    getItem(<AiOutlineDashboard />, "Dashboard", "1"),
-    getItem(<AiOutlineFileAdd />, "Add Intern", "2"),
+    getItem(<AiOutlineDashboard />, "Dashboard", "/"),
+    getItem(<AiOutlineFileAdd />, "Add Intern", "/add-intern"),
     getItem(<AiOutlineFileSearch />, "Intern List", "3"),
   ];
   function getItem(icon, label, key, children) {
@@ -28,9 +28,9 @@ const DashboardLayout = () => {
       label,
     };
   }
-  //   const handleMenuclick = ({ key }) => {
-  //     navigate(key);
-  //   };
+  const handleMenuclick = ({ key }) => {
+    navigate(key);
+  };
   return (
     <>
       <Layout
@@ -45,9 +45,9 @@ const DashboardLayout = () => {
           //   onCollapse={(value) => setCollapsed(value)}
         >
           <Menu
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={["/"]}
             items={items}
-            // onClick={handleMenuclick}
+            onClick={handleMenuclick}
             mode="inline"
             style={{
               backgroundColor: "#ffff",
@@ -60,7 +60,7 @@ const DashboardLayout = () => {
             style={{ backgroundColor: "#ffff" }}
             className=" flex items-center justify-end"
           ></Header>
-          <Content>{outlet}</Content>
+          <Content className=" bg-gray-400 p-5 h-full flex">{outlet}</Content>
         </Layout>
       </Layout>
     </>
