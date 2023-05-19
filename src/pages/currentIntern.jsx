@@ -12,7 +12,7 @@ function CurrentIntern() {
   // Get_User Query Data
   const { data, loading, error } = useQuery(GET_INTERN);
   return (
-    <div className=" flex justify-start h-screen w-full">
+    <div className=" flex justify-start w-full">
       <div>
         <Card className="flex justify-start items-center p-0 w-44 h-9">
           <Title level={5} className=" m-0">
