@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "./components/dashboardLayout";
-import InternList from "./pages/intern/internList";
-import AddIntern from "./pages/addIntern";
+import InternList from "./pages/admin/internList";
+import AddIntern from "./pages/admin/addIntern";
 import Login from "./pages/login";
-import CurrentIntern from "./pages/currentIntern";
-import Internlogs from "./pages/internlogs";
+import CurrentIntern from "./pages/admin/currentIntern";
+import Internlogs from "./pages/intern/internlogs";
 import { ProtectedLayout } from "./utils/routeGuard";
 import { RoleGuardLayout } from "./utils/roleGuard";
+import InternCamLogs from "./pages/intern/internCamLogs";
 
 export default createBrowserRouter([
   {
@@ -40,6 +41,14 @@ export default createBrowserRouter([
           {
             path: "/intern",
             children: [
+              {
+                path: "/intern",
+                element: <InternCamLogs />,
+              },
+              {
+                path: "/intern/intern-list",
+                element: <InternList />,
+              },
               {
                 path: "/intern/intern-logs",
                 element: <Internlogs />,

@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Card, Typography } from "antd";
 // ant d UI for design
 import React from "react";
-import { GET_INTERN } from "../graphql/query";
+import { GET_INTERN } from "../../graphql/query";
 
 //typography Title
 const { Title } = Typography;

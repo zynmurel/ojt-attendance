@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Form, Typography, DatePicker } from "antd";
-import TableInternLogs from "../components/tableInternlogs";
+import TableInternLogs from "../../components/tableInternlogs";
 
 function Internlogs() {
   const styles = {

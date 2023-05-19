@@ -8,6 +8,7 @@ import {
   AiOutlineDashboard,
   AiOutlineFileSearch,
   AiOutlineClockCircle,
+  AiOutlineCamera,
 } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 
@@ -26,6 +27,8 @@ const DashboardLayout = () => {
     getItem(<AiOutlineFileSearch />, "Intern List", "/admin/intern-list"),
   ];
   const intern = [
+    getItem(<AiOutlineCamera />, "Camera View", "/intern"),
+    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
     getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   const items = userRole === "admin" ? admin : intern;
