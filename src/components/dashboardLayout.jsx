@@ -8,6 +8,7 @@ import {
   AiOutlineDashboard,
   AiOutlineFileSearch,
   AiOutlineClockCircle,
+  AiOutlineCamera,
 } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 
@@ -24,6 +25,7 @@ const DashboardLayout = () => {
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
   ];
   const intern = [
+    getItem(<AiOutlineCamera />, "Camera View", "/intern"),
     getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
     getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];

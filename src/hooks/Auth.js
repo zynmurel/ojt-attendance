@@ -8,9 +8,12 @@ export const AuthProvider = ({ children }) => {
   const internId = localStorage.getItem("intern_id");
   // call this function to set user token and set data to local storage
   const login = (token) => {
-    localStorage.setItem("token", token.id);
+    localStorage.setItem(
+      "token",
+      process.env.REACT_APP_OJT_ATTENDANCE_PASSWORD
+    );
     localStorage.setItem("user_role", token.role);
-    localStorage.setItem("intern_id", token.intern_id);
+    localStorage.setItem("intern_id", token.id);
     window.location = "/";
   };
   const logout = () => {
