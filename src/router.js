@@ -4,6 +4,7 @@ import InternList from "./pages/intern/internList";
 import AddIntern from "./pages/addIntern";
 import Login from "./pages/login";
 import { ProtectedLayout } from "./utils/routeGuard";
+import { RoleGuardLayout } from "./utils/roleGuard";
 
 export default createBrowserRouter([
   {
@@ -12,7 +13,11 @@ export default createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <DashboardLayout />,
+        element: (
+          <RoleGuardLayout>
+            <DashboardLayout />
+          </RoleGuardLayout>
+        ),
         children: [
           {
             path: "/admin",
