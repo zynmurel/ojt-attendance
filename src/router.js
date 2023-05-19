@@ -23,12 +23,12 @@ export default createBrowserRouter([
           {
             path: "/admin",
             children: [
-              { path: "/admin/add-intern", element: <AddIntern /> },
-              ,
               {
-                path: "/admin/currentintern", //Current Intern Component
+                path: "/admin", //Current Intern Component
                 element: <CurrentIntern />,
               },
+              { path: "/admin/add-intern", element: <AddIntern /> },
+              ,
             ],
           },
           {
