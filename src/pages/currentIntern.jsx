@@ -1,11 +1,16 @@
+import { useQuery } from "@apollo/client";
 import { Card, Typography } from "antd";
 // ant d UI for design
 import React from "react";
+import { GET_INTERN } from "../graphql/query";
+
 //typography Title
 const { Title } = Typography;
 // meta is a sub compnent of card
 const { Meta } = Card;
 function CurrentIntern() {
+  // Get_User Query Data
+  const { data, loading, error } = useQuery(GET_INTERN);
   return (
     <div className=" flex justify-start w-full">
       <div>
@@ -14,34 +19,20 @@ function CurrentIntern() {
             Current Interns
           </Title>
         </Card>
-        <div className=" grid grid-cols-4 py-5 gap-5">
-          <Card
-            style={{ width: 240 }}
-            cover={<img src="/sample.jpg" alt="Sample Images" />}
-          >
-            <Meta title="Sean Comingues" description="Remaining Hour: 600" />
-          </Card>
-          <Card
-            style={{ width: 240 }}
-            cover={<img src="/sample.jpg" alt="Sample Images" />}
-          >
-            <Meta title="Cedric Candido" description="Remaining Hour: 600" />
-          </Card>
-          <Card
-            style={{ width: 240 }}
-            cover={<img src="/sample.jpg" alt="Sample Images" />}
-          >
-            <Meta
-              title="Sonny Boy Fuenteblanca"
-              description="Remaining Hour: 600"
-            />
-          </Card>
-          <Card
-            style={{ width: 240 }}
-            cover={<img src="/sample.jpg" alt="Sample Images" />}
-          >
-            <Meta title="Eunice Balmes" description="Remaining Hour: 600" />
-          </Card>
+        <div className=" grid grid-cols-4 py-5 gap-8">
+          {data &&
+            data.ojt_attendance_user.map((intern) => (
+              <Card
+                key={intern.id}
+                style={{ width: 240 }}
+                cover={<img src={intern.profile_pic} alt="Sample Images" />}
+              >
+                <Meta
+                  title={intern.first_name}
+                  description="Remaining Hour: 600"
+                />
+              </Card>
+            ))}
         </div>
       </div>
     </div>
