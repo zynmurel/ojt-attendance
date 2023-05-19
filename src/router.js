@@ -3,6 +3,7 @@ import DashboardLayout from "./components/dashboardLayout";
 import InternList from "./pages/intern/internList";
 import AddIntern from "./pages/addIntern";
 import Login from "./pages/login";
+import CurrentIntern from "./pages/currentIntern";
 import Internlogs from "./pages/internlogs";
 import { ProtectedLayout } from "./utils/routeGuard";
 import { RoleGuardLayout } from "./utils/roleGuard";
@@ -22,7 +23,14 @@ export default createBrowserRouter([
         children: [
           {
             path: "/admin",
-            children: [{ path: "/admin/add-intern", element: <AddIntern /> }],
+            children: [
+              {
+                path: "/admin", //Current Intern Component
+                element: <CurrentIntern />,
+              },
+              { path: "/admin/add-intern", element: <AddIntern /> },
+              ,
+            ],
           },
           {
             path: "/intern",
