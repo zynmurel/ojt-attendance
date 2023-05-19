@@ -4,6 +4,7 @@ import InternList from "./pages/intern/internList";
 import AddIntern from "./pages/addIntern";
 import Login from "./pages/login";
 import CurrentIntern from "./pages/currentIntern";
+import Internlogs from "./pages/internlogs";
 import { ProtectedLayout } from "./utils/routeGuard";
 import { RoleGuardLayout } from "./utils/roleGuard";
 
@@ -37,6 +38,10 @@ export default createBrowserRouter([
               {
                 path: "/intern/intern-list",
                 element: <InternList />,
+              },
+              {
+                path: "/intern/intern-logs",
+                element: <Internlogs />,
               },
             ],
           },

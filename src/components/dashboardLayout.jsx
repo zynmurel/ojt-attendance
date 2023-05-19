@@ -7,6 +7,7 @@ import {
   AiOutlineFileAdd,
   AiOutlineDashboard,
   AiOutlineFileSearch,
+  AiOutlineClockCircle,
 } from "react-icons/ai";
 import { useAuth } from "../hooks/Auth";
 
@@ -22,6 +23,7 @@ const DashboardLayout = () => {
   ];
   const intern = [
     getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
+    getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   const items = userRole === "admin" ? admin : intern;
   function getItem(icon, label, key, children) {
