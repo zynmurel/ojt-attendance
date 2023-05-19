@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useOutlet } from "react-router-dom";
 
 import { Layout, Menu } from "antd";
@@ -9,17 +8,22 @@ import {
   AiOutlineDashboard,
   AiOutlineFileSearch,
 } from "react-icons/ai";
+import { useAuth } from "../hooks/Auth";
 
 const DashboardLayout = () => {
-  //   const [collapsed, setCollapsed] = useState(false);
+  const { userRole } = useAuth();
+  console.log(userRole);
 
   const outlet = useOutlet();
   const navigate = useNavigate();
-  const items = [
-    getItem(<AiOutlineDashboard />, "Dashboard", "/"),
+  const admin = [
+    getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
+  ];
+  const intern = [
     getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
   ];
+  const items = userRole === "admin" ? admin : intern;
   function getItem(icon, label, key, children) {
     return {
       key,
@@ -64,7 +68,7 @@ const DashboardLayout = () => {
           >
             <img className=" w-28" src="/InternAttendance.jpg" />
           </Header>
-          <Content className=" p-8 pb-20" style={{ background: "#989ca4" }}>
+          <Content className=" p-8" style={{ background: "#989ca4" }}>
             {outlet}
           </Content>
         </Layout>
