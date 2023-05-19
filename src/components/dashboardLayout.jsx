@@ -53,7 +53,7 @@ const DashboardLayout = () => {
           <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
 
           <Menu
-            defaultSelectedKeys={["/"]}
+            defaultSelectedKeys={[`/${userRole}`]}
             items={items}
             onClick={handleMenuclick}
             mode="inline"
