@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useOutlet } from "react-router-dom";
 
 import { Layout, Menu } from "antd";
@@ -9,17 +8,22 @@ import {
   AiOutlineDashboard,
   AiOutlineFileSearch,
 } from "react-icons/ai";
+import { useAuth } from "../hooks/Auth";
 
 const DashboardLayout = () => {
-  //   const [collapsed, setCollapsed] = useState(false);
+  const { userRole } = useAuth();
+  console.log(userRole);
 
   const outlet = useOutlet();
   const navigate = useNavigate();
-  const items = [
-    getItem(<AiOutlineDashboard />, "Dashboard", "/"),
+  const admin = [
+    getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
-    getItem(<AiOutlineFileSearch />, "Intern List", "3"),
   ];
+  const intern = [
+    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
+  ];
+  const items = userRole === "admin" ? admin : intern;
   function getItem(icon, label, key, children) {
     return {
       key,
@@ -44,6 +48,8 @@ const DashboardLayout = () => {
           style={{ backgroundColor: "#ffff" }}
           //   onCollapse={(value) => setCollapsed(value)}
         >
+          <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
+
           <Menu
             defaultSelectedKeys={["/"]}
             items={items}
@@ -57,10 +63,14 @@ const DashboardLayout = () => {
         </Sider>
         <Layout>
           <Header
-            style={{ backgroundColor: "#ffff" }}
-            className=" flex items-center justify-end"
-          ></Header>
-          <Content className=" bg-gray-400 p-5 h-full flex">{outlet}</Content>
+            style={{ backgroundColor: "#ffff", padding: 0 }}
+            className=" flex items-center justify-start"
+          >
+            <img className=" w-28" src="/InternAttendance.jpg" />
+          </Header>
+          <Content className=" p-8" style={{ background: "#989ca4" }}>
+            {outlet}
+          </Content>
         </Layout>
       </Layout>
     </>

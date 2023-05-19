@@ -1,38 +1,41 @@
-.App {
-  text-align: center;
+.custom-table .ant-pagination {
+  background-color: white;
+  margin-top: 16px; /* Adjust the margin if needed */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.custom-table .ant-pagination .ant-pagination-item a,
+.custom-table .ant-pagination .ant-pagination-item .ant-pagination-item-link {
+  color: #1890ff; /* Set the color for pagination links */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.custom-table .ant-pagination .ant-pagination-item.ant-pagination-item-active a,
+.custom-table
+  .ant-pagination
+  .ant-pagination-item.ant-pagination-item-active
+  .ant-pagination-item-link {
+  color: white; /* Set the color for active pagination link */
+  background-color: #1890ff; /* Set the background color for active pagination link */
+  border-color: #1890ff; /* Set the border color for active pagination link */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.custom-table .ant-pagination .ant-pagination-prev,
+.custom-table .ant-pagination .ant-pagination-next {
+  background-color: white; /* Set the background color for previous/next pagination links */
 }
 
-.App-link {
-  color: #61dafb;
+.custom-table .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  color: #1890ff; /* Set the color for previous/next pagination links */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.custom-table
+  .ant-pagination
+  .ant-pagination-prev
+  .ant-pagination-item-link:hover,
+.custom-table
+  .ant-pagination
+  .ant-pagination-next
+  .ant-pagination-item-link:hover {
+  color: white; /* Set the color for previous/next pagination links on hover */
+  background-color: #1890ff; /* Set the background color for previous/next pagination links on hover */
 }
