@@ -1,8 +1,8 @@
 import { Button, Card, DatePicker, Form, Input, Typography, Radio } from "antd";
-import UploadProfile from "../components/uploadProfile";
+import UploadProfile from "../../components/uploadProfile";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
-import { ADD_INTERN } from "../graphql/mutation";
+import { ADD_INTERN } from "../../graphql/mutation";
 import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
