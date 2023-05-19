@@ -105,7 +105,7 @@ const AddIntern = () => {
           </div>
         </div>
       </Card>
-      <Card className="px-10 h-full items-center">
+      <Card className="px-10 h-auto items-center">
         <Typography.Title
           className="block"
           level={4}

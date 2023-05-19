@@ -1,6 +1,6 @@
 import { useNavigate, useOutlet } from "react-router-dom";
 
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import {
@@ -9,10 +9,12 @@ import {
   AiOutlineFileSearch,
   AiOutlineClockCircle,
 } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
+
 import { useAuth } from "../hooks/Auth";
 
 const DashboardLayout = () => {
-  const { userRole } = useAuth();
+  const { userRole, logout } = useAuth();
   console.log(userRole);
 
   const outlet = useOutlet();
@@ -45,23 +47,29 @@ const DashboardLayout = () => {
         }}
         className="flex"
       >
-        <Sider
-          //   collapsed={collapsed}
-          style={{ backgroundColor: "#ffff" }}
-          //   onCollapse={(value) => setCollapsed(value)}
-        >
-          <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
+        <Sider style={{ backgroundColor: "#ffff" }}>
+          <div className=" flex flex-col h-screen">
+            <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
 
-          <Menu
-            defaultSelectedKeys={["/"]}
-            items={items}
-            onClick={handleMenuclick}
-            mode="inline"
-            style={{
-              backgroundColor: "#ffff",
-              paddingTop: "2.5rem",
-            }}
-          />
+            <Menu
+              defaultSelectedKeys={[`/${userRole}`]}
+              items={items}
+              onClick={handleMenuclick}
+              mode="inline"
+              style={{
+                backgroundColor: "#ffff",
+                paddingTop: "2.5rem",
+              }}
+            />
+            <Button
+              type="text"
+              className=" text-red-500 text-base flex items-center justify-center gap-2 mx-auto  mt-auto mb-10 w-full"
+              onClick={() => logout()}
+            >
+              Logout
+              <BiLogOut fontSize={20} />
+            </Button>
+          </div>
         </Sider>
         <Layout>
           <Header
@@ -70,7 +78,12 @@ const DashboardLayout = () => {
           >
             <img className=" w-28" src="/InternAttendance.jpg" />
           </Header>
-          <Content className=" p-8" style={{ background: "#989ca4" }}>
+          <Content
+            className=" p-8 overflow-auto h-1"
+            style={{
+              background: "#989ca4",
+            }}
+          >
             {outlet}
           </Content>
         </Layout>

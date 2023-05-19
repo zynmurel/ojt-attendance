@@ -13,8 +13,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("intern_id", token.intern_id);
     window.location = "/";
   };
+  const logout = () => {
+    localStorage.clear();
+    window.location = "/";
+  };
   const value = useMemo(() => ({
     login,
+    logout,
     userToken,
     userRole,
     internId,
