@@ -26,7 +26,6 @@ function Internlogs() {
           </div>
         </div>
       </Card>
-
       <TableInternLogs />
     </div>
   );
