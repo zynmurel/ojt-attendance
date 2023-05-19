@@ -19,7 +19,6 @@ export const LOGIN_USER = gql`
       username
       start_date
       id
-      intern_id
     }
   }
 `;
@@ -42,7 +41,27 @@ export const GET_INTERN = gql`
       username
       start_date
       id
+    }
+  }
+`;
+
+export const GET_ATTENDACE_BY_INTERN = gql`
+  query GetAttendance($date: String, $intern_id: uuid) {
+    ojt_attendance_attendance(
+      where: { date: { _eq: $date }, intern_id: { _eq: $intern_id } }
+    ) {
+      total_rendered
+      date
+      in_am
+      in_pm
+      out_am
+      out_pm
+      id
       intern_id
+      am_in_img
+      am_out_img
+      pm_in_img
+      pm_out_img
     }
   }
 `;
