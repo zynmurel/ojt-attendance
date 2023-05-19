@@ -3,6 +3,8 @@ import { Button, Card, Form, Input, Typography } from "antd";
 import { LOGIN_USER } from "../graphql/query";
 //text typography
 import { useLazyQuery } from "@apollo/client";
+import { useAuth } from "../hooks/Auth";
+import { Navigate } from "react-router-dom";
 const { Text } = Typography;
 // Rules and Validation
 const rules = {
@@ -25,6 +27,7 @@ const rules = {
   ],
 };
 const Login = () => {
+  const { login, userToken } = useAuth();
   const [form] = Form.useForm();
   // data in  Query
   const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER, {
@@ -33,9 +36,14 @@ const Login = () => {
       password: form.getFieldValue("password"),
     },
   });
+
+  //condition if has token redirect to dashboard
+  if (userToken) {
+    return <Navigate to="/" />;
+  }
   // Condition in the admin to the dashboard
   if (data && data.ojt_attendance_user.length !== 0) {
-    window.location = "/";
+    login(data.ojt_attendance_user[0]);
   }
 
   const onLogin = (value) => {

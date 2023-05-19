@@ -16,6 +16,7 @@ const UploadProfile = ({ form, imageToView, setImageToView }) => {
         }
       },
     }),
+    { required: true },
   ];
   const uploadButton = (
     <div>
@@ -76,14 +77,14 @@ const UploadProfile = ({ form, imageToView, setImageToView }) => {
       </Modal>
       <Form.Item
         name="photo"
-        label="Profile Photo"
-        labelCol={{ span: 12 }}
+        label="Profile Photo:"
+        // labelCol={{ span: 12 }}
         rules={rules}
       >
         <Upload
           name="profile"
           listType="picture-card"
-          className="avatar-uploader"
+          className="avatar-uploader pl-24"
           showUploadList={uploadButton}
           accept="image/png, image/jpeg"
           onPreview={togglePhotoModal}

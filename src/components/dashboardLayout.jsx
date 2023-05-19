@@ -8,6 +8,7 @@ import {
   AiOutlineFileAdd,
   AiOutlineDashboard,
   AiOutlineFileSearch,
+  AiOutlineClockCircle,
 } from "react-icons/ai";
 
 const DashboardLayout = () => {
@@ -17,8 +18,9 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const items = [
     getItem(<AiOutlineDashboard />, "Dashboard", "/"),
-    getItem(<AiOutlineFileAdd />, "Add Intern", "/add-intern"),
-    getItem(<AiOutlineFileSearch />, "Intern List", "3"),
+    getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
+    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
+    getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   function getItem(icon, label, key, children) {
     return {
@@ -44,6 +46,8 @@ const DashboardLayout = () => {
           style={{ backgroundColor: "#ffff" }}
           //   onCollapse={(value) => setCollapsed(value)}
         >
+          <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
+
           <Menu
             defaultSelectedKeys={["/"]}
             items={items}
@@ -57,10 +61,14 @@ const DashboardLayout = () => {
         </Sider>
         <Layout>
           <Header
-            style={{ backgroundColor: "#ffff" }}
-            className=" flex items-center justify-end"
-          ></Header>
-          <Content className=" bg-gray-400 p-5 h-full flex">{outlet}</Content>
+            style={{ backgroundColor: "#ffff", padding: 0 }}
+            className=" flex items-center justify-start"
+          >
+            <img className="  w-1/6  " src="/InternAttendance.jpg" />
+          </Header>
+          <Content className=" p-8 pb-20" style={{ background: "#989ca4" }}>
+            {outlet}
+          </Content>
         </Layout>
       </Layout>
     </>

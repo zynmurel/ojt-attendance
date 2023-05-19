@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Form, Typography, DatePicker } from "antd";
+import TableInternLogs from "../components/tableInternlogs";
 
 function Internlogs() {
   const styles = {
@@ -25,11 +26,8 @@ function Internlogs() {
           </div>
         </div>
       </Card>
-      <Card className=" h-screen w-full flex items-center justify-center">
-        <Form className="mb-5 px-10">
-          <div className=" h-80 w-40"></div>
-        </Form>
-      </Card>
+
+      <TableInternLogs />
     </div>
   );
 }

@@ -51,7 +51,7 @@ const AddIntern = () => {
             level={4}
             style={{ margin: 0, ...styles.title }}
           >
-            Add Driver
+            Add Intern
           </Typography.Title>
           <div className="block lg:flex items-center">
             <Button
@@ -77,7 +77,7 @@ const AddIntern = () => {
         <div className=" flex px-5 py-5 flex-col">
           <div className=" flex flex-row gap-2">
             <UploadProfile />
-            <Text className=" w-44" type="secondary">
+            <Text className=" w-44 mt-6" type="secondary">
               Recommended resolution is 640*640 with file size less than 2MB,
               keep visual element centered
             </Text>
@@ -133,12 +133,12 @@ const AddIntern = () => {
               <Input className=" w-full" />
             </Form.Item>
           </div>
-          <div className=" flex flex-row w-full mt-20 gap-20">
+          <div className=" grid grid-cols-4 w-full mt-20 ">
             <Form.Item
               label="Username"
               name="username"
               rules={rules.username}
-              className="w-1/5"
+              className="w-3/4"
             >
               <Input className="w-full" />
             </Form.Item>
@@ -155,7 +155,7 @@ const AddIntern = () => {
               label="Contact Number"
               name="contact_number"
               rules={rules.contact_number}
-              className="w-1/5"
+              className="w-3/4"
             >
               <Input className=" w-full" />
             </Form.Item>
@@ -163,7 +163,7 @@ const AddIntern = () => {
               label="Email"
               name="email"
               rules={rules.email}
-              className="w-1/3"
+              className="w-3/4"
             >
               <Input className=" w-full" />
             </Form.Item>
