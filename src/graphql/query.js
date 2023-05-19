@@ -19,7 +19,6 @@ export const LOGIN_USER = gql`
       username
       start_date
       id
-      intern_id
     }
   }
 `;
@@ -42,7 +41,6 @@ export const GET_INTERN = gql`
       username
       start_date
       id
-      intern_id
     }
   }
 `;
