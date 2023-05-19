@@ -62,7 +62,7 @@ const DashboardLayout = () => {
             style={{ backgroundColor: "#ffff", padding: 0 }}
             className=" flex items-center justify-start"
           >
-            <img className="  w-1/6  " src="/InternAttendance.jpg" />
+            <img className=" w-28" src="/InternAttendance.jpg" />
           </Header>
           <Content className=" p-8 pb-20" style={{ background: "#989ca4" }}>
             {outlet}
