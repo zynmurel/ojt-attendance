@@ -20,9 +20,10 @@ const DashboardLayout = () => {
   const admin = [
     getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
+
+    getItem(<AiOutlineFileSearch />, "Intern List", "/admin/intern-list"),
   ];
   const intern = [
-    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
     getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   const items = userRole === "admin" ? admin : intern;

@@ -24,13 +24,14 @@ export default createBrowserRouter([
             path: "/admin",
             children: [{ path: "/admin/add-intern", element: <AddIntern /> }],
           },
+
+          {
+            path: "/admin/intern-list",
+            element: <InternList />,
+          },
           {
             path: "/intern",
             children: [
-              {
-                path: "/intern/intern-list",
-                element: <InternList />,
-              },
               {
                 path: "/intern/intern-logs",
                 element: <Internlogs />,

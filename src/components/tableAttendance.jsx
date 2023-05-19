@@ -1,30 +1,16 @@
 import React, { useState } from "react";
 import { Table } from "antd";
+import { INTERN_LIST } from "../graphql/query";
+import { useQuery } from "@apollo/client";
+import moment from "moment";
+
 const { Column } = Table;
 
-const data = [
-  {
-    key: "1",
-    name: "John Doe",
-    schoolName: "ABC School",
-    schoolAddress: "123 Main Street",
-    contactNumber: "555-1234",
-    username: "johndoe",
-    image: "url/to/image1.png",
-  },
-
-  {
-    key: "2",
-    name: "Cedric Doe",
-    schoolName: "ABC School",
-    schoolAddress: "123 Main Street",
-    contactNumber: "555-1234",
-    username: "johndoe",
-    image: "url/to/image1.png",
-  },
-];
-
 const TableAttendance = () => {
+  const { data: InternData, loading, error } = useQuery(INTERN_LIST);
+  console.log(
+    InternData?.ojt_attendance_user && InternData?.ojt_attendance_user
+  );
   const [sortOrder, setSortOrder] = useState(null);
 
   const handleTableChange = (pagination, filters, sorter) => {
@@ -40,49 +26,71 @@ const TableAttendance = () => {
 
   return (
     <div className=" bg-white">
-      <Table dataSource={data} onChange={handleTableChange}>
+      <Table
+        dataSource={InternData?.ojt_attendance_user}
+        onChange={handleTableChange}
+      >
         <Column
           title="Name"
-          dataIndex="name"
           key="name"
           sorter
           sortOrder={getSortOrder("name")}
+          render={(_) => <>{_.first_name + " " + _.last_name}</>}
         />
         <Column
           title="School Name"
-          dataIndex="schoolName"
+          dataIndex="school_name"
+          key="schoolName"
+          sorter
+          sortOrder={getSortOrder("schoolName")}
+        />
+
+        <Column
+          title="School Address"
+          dataIndex="school_address"
           key="schoolName"
           sorter
           sortOrder={getSortOrder("schoolName")}
         />
         <Column
-          title="School Address"
-          dataIndex="schoolAddress"
-          key="schoolAddress"
-          sorter
-          sortOrder={getSortOrder("schoolAddress")}
-        />
-        <Column
           title="Contact Number"
-          dataIndex="contactNumber"
-          key="contactNumber"
+          dataIndex="contact_number"
+          key="schoolName"
           sorter
-          sortOrder={getSortOrder("contactNumber")}
+          sortOrder={getSortOrder("schoolName")}
         />
+
         <Column
           title="Username"
           dataIndex="username"
-          key="username"
+          key="schoolName"
           sorter
-          sortOrder={getSortOrder("username")}
+          sortOrder={getSortOrder("schoolName")}
         />
+
+        <Column
+          title="School Address"
+          dataIndex="school_address"
+          key="schoolName"
+          sorter
+          sortOrder={getSortOrder("schoolName")}
+        />
+
         <Column
           title="Image"
-          dataIndex="image"
-          key="image"
-          render={(image) => (
-            <img src={image} alt="User" style={{ width: "50px" }} />
+          key="schoolName"
+          sorter
+          sortOrder={getSortOrder("schoolName")}
+          render={(_) => (
+            <img width={"50px"} height={"50px"} src={_.profile_pic} alt="df" />
           )}
+        />
+
+        <Column
+          title="Start_Date"
+          dataIndex="start_date"
+          key="date"
+          render={(date) => moment(date).format("MM/DD/YY")}
         />
       </Table>
     </div>
