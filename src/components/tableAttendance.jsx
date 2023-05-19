@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Table } from "antd";
-import { INTERN_LIST } from "../graphql/query";
+import { GET_INTERN } from "../graphql/query";
 import { useQuery } from "@apollo/client";
 import moment from "moment";
 
 const { Column } = Table;
 
 const TableAttendance = () => {
-  const { data: InternData, loading, error } = useQuery(INTERN_LIST);
+  const { data: InternData, loading, error } = useQuery(GET_INTERN);
   console.log(
     InternData?.ojt_attendance_user && InternData?.ojt_attendance_user
   );

@@ -1,7 +1,7 @@
 import { Form, Upload, Modal } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-const UploadProfile = ({ form, imageToView, setImageToView }) => {
+const UploadProfile = ({ imageToView, setImageToView }) => {
   const [viewPhoto, setViewPhoto] = useState(false);
 
   //upload form item rules
@@ -16,7 +16,7 @@ const UploadProfile = ({ form, imageToView, setImageToView }) => {
         }
       },
     }),
-    { required: true },
+    { required: true, message: "Photo is required" },
   ];
   const uploadButton = (
     <div>
@@ -53,6 +53,7 @@ const UploadProfile = ({ form, imageToView, setImageToView }) => {
   const profilePhotoRequest = ({ file, onSuccess }) => {
     getBase64(file, (url) => {
       setImageToView(url);
+      console.log(url);
       onSuccess("ok");
     });
   };

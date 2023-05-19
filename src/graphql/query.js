@@ -24,7 +24,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const INTERN_LIST = gql`
+export const GET_INTERN = gql`
   query GetUser {
     ojt_attendance_user(where: { role: { _eq: "intern" } }) {
       hours_to_render
