@@ -63,7 +63,7 @@ const DashboardLayout = () => {
             </div>
           </Header>
           <Content
-            className=" p-8 overflow-auto h-96"
+            className=" p-5 overflow-auto h-96"
             style={{
               background: "#989ca4",
             }}
