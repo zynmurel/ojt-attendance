@@ -30,7 +30,7 @@ const DashboardLayout = () => {
     }
   }, [screens]);
   const toggleSideBar = () => {
-    setCollapsed((collapsed) => !collapsed);
+    setCollapsed(!collapsed);
   };
   return (
     <>
@@ -44,8 +44,6 @@ const DashboardLayout = () => {
           <Header
             style={{ backgroundColor: "#ffff", padding: 0 }}
             className=" flex items-center justify-start"
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
           >
             <div className="flex justify-between md:justify-start w-full p-3 items-center">
               {!isMobileView &&
