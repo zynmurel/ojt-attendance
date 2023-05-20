@@ -16,6 +16,8 @@ const AddIntern = () => {
       navigate("/");
     },
   });
+
+  // form rules
   const rules = {
     first_name: [{ required: true, message: "First name is required!" }],
     middle_name: [{ required: true, message: "Middle name is required!" }],
@@ -84,7 +86,7 @@ const AddIntern = () => {
       form={form}
     >
       <Card className="mb-5 px-10">
-        <div className="block lg:flex justify-between w-full">
+        <div className="flex justify-between items-center w-full">
           <Typography.Title
             className="block"
             level={4}
@@ -92,15 +94,13 @@ const AddIntern = () => {
           >
             Add Intern
           </Typography.Title>
-          <div className="block lg:flex items-center">
+          <div className="flex ">
             <Button
-              className="w-full lg:w-auto gap-5 flex flex-row items-center"
-              type="primary"
-              ghost
-              htmlType="submit"
+              style={{ backgroundColor: "#a8acb4" }}
+              className="flex flex-row items-center h-8 w-50"
             >
-              <AiOutlineFileAdd fontSize={20} />
-              <p>Add Intern</p>
+              <AiOutlineFileAdd className="mr-5 " fontSize={30} />
+              <p> Add Intern </p>
             </Button>
           </div>
         </div>
@@ -124,12 +124,12 @@ const AddIntern = () => {
               keep visual element centered
             </Text>
           </div>
-          <div className=" grid grid-cols-3 w-full  mt-10">
+          <div className=" grid lg:grid-cols-3 w-full lg:mt-10 sm:grid-cols-1">
             <Form.Item
               label="First Name"
               name="first_name"
               rules={rules.first_name}
-              className="w-2/3"
+              className="lg:w-2/3 sm:w-full"
             >
               <Input className="w-full" />
             </Form.Item>
@@ -137,25 +137,25 @@ const AddIntern = () => {
               label="Middle Name"
               name="middle_name"
               rules={rules.middle_name}
-              className="w-2/3"
+              className="lg:w-2/3 sm:w-full"
             >
-              <Input className=" w-full" />
+              <Input className="w-full" />
             </Form.Item>
             <Form.Item
               label="Last Name"
               name="last_name"
               rules={rules.last_name}
-              className="w-2/3"
+              className="lg:w-2/3 sm:w-full"
             >
-              <Input className=" w-full" />
+              <Input className="w-full" />
             </Form.Item>
           </div>
-          <div className=" grid grid-cols-3 w-full mt-20">
+          <div className=" grid lg:grid-cols-3 w-full lg:mt-20 sm:grid-cols-1">
             <Form.Item
               label="Start Date"
               name="start_date"
               rules={rules.start_date}
-              className=" w-2/3"
+              className="lg:w-2/3 sm:w-full"
             >
               <DatePicker className=" w-full" />
             </Form.Item>
@@ -163,7 +163,7 @@ const AddIntern = () => {
               label="School Name"
               name="school_name"
               rules={rules.school_name}
-              className=" w-2/3"
+              className="lg:w-2/3 sm:w-full"
             >
               <Input className=" w-full" />
             </Form.Item>
@@ -175,7 +175,7 @@ const AddIntern = () => {
               <Input className=" w-full" />
             </Form.Item>
           </div>
-          <div className=" grid grid-cols-4 w-full mt-20 ">
+          <div className=" grid lg:grid-cols-4 w-full lg:mt-20 sm:grid-cols-1">
             <Form.Item
               label="Username"
               name="username"

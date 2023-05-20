@@ -85,7 +85,7 @@ const UploadProfile = ({ imageToView, setImageToView }) => {
         <Upload
           name="profile"
           listType="picture-card"
-          className="avatar-uploader pl-24"
+          className="avatar-uploader lg:pl-24"
           showUploadList={uploadButton}
           accept="image/png, image/jpeg"
           onPreview={togglePhotoModal}
