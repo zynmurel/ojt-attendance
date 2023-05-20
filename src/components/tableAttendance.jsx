@@ -102,10 +102,10 @@ const TableAttendance = () => {
   };
 
   const exportToExcel = () => {
-    const filter =
-      filteredData.length > 0 ? filteredData : InternData?.ojt_attendance_user;
-
-    const exportData = filter.map((item) => ({
+    console.log(
+      filteredData.length > 0 ? filteredData : InternData?.ojt_attendance_user
+    );
+    const exportData = InternData?.ojt_attendance_user.map((item) => ({
       Name: `${item.first_name} ${item.last_name}`,
       "School Name": item.school_name,
       "School Address": item.school_address,
