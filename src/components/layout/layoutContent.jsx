@@ -95,12 +95,22 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
             </Button>
           }
         >
-          <Menu
-            mode="inline"
-            items={items}
-            onClick={handleMenuMobileClick}
-            defaultSelectedKeys={[`/${userRole}`]}
-          />
+          <div className=" flex flex-col h-full">
+            <Menu
+              mode="inline"
+              items={items}
+              onClick={handleMenuMobileClick}
+              defaultSelectedKeys={[`/${userRole}`]}
+            />
+            <Button
+              type="text"
+              className=" text-red-500 text-sm flex items-center justify-center gap-2 mx-auto  mt-auto mb-5 w-full"
+              onClick={() => logout()}
+            >
+              Logout
+              <BiLogOut fontSize={20} />
+            </Button>
+          </div>
         </Drawer>
       )}
     </>
