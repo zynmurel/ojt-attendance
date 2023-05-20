@@ -2,45 +2,90 @@ import React, { useState } from "react";
 import {
   Table,
   Card,
-  Space,
   DatePicker,
   Typography,
   Input,
   Button,
+  Image,
 } from "antd";
 import { GET_INTERN } from "../graphql/query";
 import { useQuery } from "@apollo/client";
 import { AiOutlineFileExcel } from "react-icons/ai";
 import moment from "moment";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const { RangePicker } = DatePicker;
-
 const { Title } = Typography;
 const { Search } = Input;
-const { Column } = Table;
+
+const columns = [
+  {
+    title: "Name",
+    key: "name",
+    render: (record) => `${record.first_name} ${record.last_name}`,
+  },
+  {
+    title: "School Name",
+    dataIndex: "school_name",
+    key: "school_name",
+  },
+  {
+    title: "School Address",
+    dataIndex: "school_address",
+    key: "school_address",
+  },
+  {
+    title: "Contact Number",
+    dataIndex: "contact_number",
+    key: "contact_number",
+  },
+  {
+    title: "Username",
+    dataIndex: "username",
+    key: "username",
+  },
+  {
+    title: "Image",
+    key: "image",
+    render: (record) => (
+      <Image
+        src={record.profile_pic}
+        alt="Profile"
+        style={{ width: 50, height: 50 }}
+      />
+    ),
+  },
+  {
+    title: "Start Date",
+    key: "start_date",
+    render: (record) => moment(record.start_date).format("MM/DD/YY"),
+  },
+];
 
 const TableAttendance = () => {
   const { data: InternData, loading, error } = useQuery(GET_INTERN);
-  const [sortOrder, setSortOrder] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const [dateRange, setDateRange] = useState([]);
+  const emptyData = [];
 
-  const handleTableChange = (pagination, filters, sorter) => {
-    setSortOrder(sorter.order);
+  const filterDateRangeTable = (dates, dateStrings) => {
+    const [startDate, endDate] = dates;
 
-    let filteredResults = InternData?.ojt_attendance_user;
+    // Format the dates using Moment.js
+    const formattedStartDate = moment(startDate.format()).format("MM/DD/YYYY");
+    const formattedEndDate = moment(endDate.format()).format("MM/DD/YYYY");
 
-    // Apply date range filtering
-    if (filters.start_date && filters.start_date.length === 2) {
-      filteredResults = filteredResults.filter((item) => {
-        const startDate = moment(item.start_date, "MM/DD/YY");
-        return (
-          startDate.isSameOrAfter(filters.start_date[0], "day") &&
-          startDate.isSameOrBefore(filters.start_date[1], "day")
-        );
-      });
-    }
-
+    // Filter the data based on the date range
+    const filteredResults = InternData?.ojt_attendance_user.filter(
+      (item) =>
+        (!formattedStartDate ||
+          moment(item.start_date).isSameOrAfter(formattedStartDate)) &&
+        (!formattedEndDate ||
+          moment(item.start_date).isSameOrBefore(formattedEndDate))
+    );
     setFilteredData(filteredResults);
+    setDateRange(dates);
   };
 
   const onSearch = (value) => {
@@ -56,11 +101,30 @@ const TableAttendance = () => {
     setFilteredData(filteredResults);
   };
 
-  const getSortOrder = (column) => {
-    if (sortOrder && sortOrder.columnKey === column) {
-      return sortOrder.order;
-    }
-    return null;
+  const exportToExcel = () => {
+    const filter =
+      filteredData.length > 0 ? filteredData : InternData?.ojt_attendance_user;
+
+    const exportData = filter.map((item) => ({
+      Name: `${item.first_name} ${item.last_name}`,
+      "School Name": item.school_name,
+      "School Address": item.school_address,
+      "Contact Number": item.contact_number,
+      Username: item.username,
+      "Start Date": moment(item.start_date).format("MM/DD/YY"),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Intern Attendance");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const data = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    saveAs(data, `Intern_List.xlsx`);
   };
 
   return (
@@ -69,90 +133,40 @@ const TableAttendance = () => {
         <div className="flex flex-row gap-6 items-center">
           <Title level={3}>Intern Attendance</Title>
 
-          <RangePicker className="h-9 text-black" format="MM/DD/YY" />
+          <RangePicker
+            className="h-9 text-black"
+            format="MM/DD/YY"
+            onChange={filterDateRangeTable}
+          />
 
           <Search
             placeholder="Input search text"
-            onSearch={onSearch}
-            style={{
-              width: 200,
-            }}
+            onChange={(e) => onSearch(e.target.value)}
+            style={{ width: 200 }}
           />
 
           <Button
             style={{ backgroundColor: "#a8acb4" }}
             className="flex flex-row items-center h-10 w-50"
+            onClick={exportToExcel}
           >
             <AiOutlineFileExcel className="mr-5" fontSize={30} />
             <div>Export Excel</div>
           </Button>
         </div>
       </Card>
-      <Table
-        dataSource={
-          filteredData.length > 0
-            ? filteredData
-            : InternData?.ojt_attendance_user
-        }
-        onChange={handleTableChange}
-      >
-        <Column
-          title="Name"
-          key="name"
-          sorter
-          sortOrder={getSortOrder("first_name")}
-          render={(_) => <>{_.first_name + " " + _.last_name}</>}
+      {dateRange && dateRange.length > 0 && filteredData.length === 0 ? (
+        <Table dataSource={emptyData} columns={columns} />
+      ) : (
+        <Table
+          dataSource={
+            filteredData.length > 0
+              ? filteredData
+              : InternData?.ojt_attendance_user
+          }
+          columns={columns}
         />
-        <Column
-          title="School Name"
-          dataIndex="school_name"
-          key="schoolName"
-          sorter
-          sortOrder={getSortOrder("schoolName")}
-        />
-
-        <Column
-          title="School Address"
-          dataIndex="school_address"
-          key="schoolAddress"
-          sorter
-          sortOrder={getSortOrder("schoolAddress")}
-        />
-
-        <Column
-          title="Contact Number"
-          dataIndex="contact_number"
-          key="contactNumber"
-          sorter
-          sortOrder={getSortOrder("contactNumber")}
-        />
-
-        <Column
-          title="Username"
-          dataIndex="username"
-          key="username"
-          sorter
-          sortOrder={getSortOrder("username")}
-        />
-
-        <Column
-          title="Image"
-          dataIndex="profile_pic"
-          key="image"
-          sorter
-          sortOrder={getSortOrder("image")}
-          render={(profile_pic) => (
-            <img width={"50px"} height={"50px"} src={profile_pic} alt="df" />
-          )}
-        />
-
-        <Column
-          title="Start Date"
-          dataIndex="start_date"
-          key="startDate"
-          render={(start_date) => moment(start_date).format("MM/DD/YY")}
-        />
-      </Table>
+      )}
     </div>
   );
 };

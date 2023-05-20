@@ -30,6 +30,10 @@ export default createBrowserRouter([
                 element: <CurrentIntern />,
               },
               { path: "/admin/add-intern", element: <AddIntern /> },
+              {
+                path: "/admin/list-of-intern",
+                element: <InternList />,
+              },
               ,
             ],
           },
@@ -44,10 +48,6 @@ export default createBrowserRouter([
               {
                 path: "/intern",
                 element: <InternCamLogs />,
-              },
-              {
-                path: "/intern/intern-list",
-                element: <InternList />,
               },
               {
                 path: "/intern/intern-logs",

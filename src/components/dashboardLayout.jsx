@@ -16,19 +16,16 @@ import { useAuth } from "../hooks/Auth";
 
 const DashboardLayout = () => {
   const { userRole, logout } = useAuth();
-  console.log(userRole);
 
   const outlet = useOutlet();
   const navigate = useNavigate();
   const admin = [
     getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
-
-    getItem(<AiOutlineFileSearch />, "Intern List", "/admin/intern-list"),
+    getItem(<AiOutlineFileSearch />, "Intern List", "/admin/list-of-intern"),
   ];
   const intern = [
     getItem(<AiOutlineCamera />, "Camera View", "/intern"),
-    getItem(<AiOutlineFileSearch />, "Intern List", "/intern/intern-list"),
     getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   const items = userRole === "admin" ? admin : intern;
@@ -67,7 +64,7 @@ const DashboardLayout = () => {
             />
             <Button
               type="text"
-              className=" text-red-500 text-base flex items-center justify-center gap-2 mx-auto  mt-auto mb-10 w-full"
+              className=" text-red-500 text-sm flex items-center justify-center gap-2 mx-auto  mt-auto mb-5 w-full"
               onClick={() => logout()}
             >
               Logout
@@ -83,7 +80,7 @@ const DashboardLayout = () => {
             <img className=" w-28" src="/InternAttendance.jpg" />
           </Header>
           <Content
-            className=" p-8 overflow-auto h-1"
+            className=" p-8 overflow-auto h-96"
             style={{
               background: "#989ca4",
             }}
