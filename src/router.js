@@ -43,6 +43,11 @@ export default createBrowserRouter([
               ,
             ],
           },
+
+          {
+            path: "/admin/intern-list",
+            element: <InternList />,
+          },
           {
             path: "/intern",
             children: [

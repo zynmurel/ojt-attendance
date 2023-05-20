@@ -7,13 +7,6 @@ const { RangePicker } = DatePicker;
 const { Title } = Typography;
 const { Search } = Input;
 
-const onChange = (value, dateString) => {
-  console.log("Selected Time: ", value);
-  console.log("Formatted Selected Time: ", dateString);
-};
-const onOk = (value) => {
-  console.log("onOk: ", value);
-};
 const onSearch = (value) => console.log(value);
 
 function CardAttendanceHeader() {
@@ -22,12 +15,7 @@ function CardAttendanceHeader() {
       <div className=" flex flex-row  gap-6    items-center    ">
         <Title level={3}>Intern Attendance</Title>
 
-        <RangePicker
-          className=" h-9   text-black   "
-          format="YYYY-MM-DD "
-          onChange={onChange}
-          onOk={onOk}
-        />
+        <RangePicker className=" h-9   text-black   " format="YYYY-MM-DD " />
 
         <Search
           placeholder="input search text"

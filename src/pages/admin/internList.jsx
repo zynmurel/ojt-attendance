@@ -4,7 +4,6 @@ import TableAttendance from "../../components/tableAttendance";
 function InternList() {
   return (
     <div>
-      <CardAttendanceHeader />
       <TableAttendance />
     </div>
   );
