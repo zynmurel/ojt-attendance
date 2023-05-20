@@ -1,13 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
-import DashboardLayout from "./components/dashboardLayout";
-import InternList from "./pages/admin/internList";
-import AddIntern from "./pages/admin/addIntern";
+import DashboardLayout from "./layout/dashboardLayout";
 import Login from "./pages/login";
+
+// pages for admin
 import CurrentIntern from "./pages/admin/currentIntern";
+import AddIntern from "./pages/admin/addIntern";
+import InternList from "./pages/admin/internList";
+
+//pages for intern
+import InternCamLogs from "./pages/intern/internCamLogs";
 import Internlogs from "./pages/intern/internlogs";
+
+//pages for utilities
 import { ProtectedLayout } from "./utils/routeGuard";
 import { RoleGuardLayout } from "./utils/roleGuard";
-import InternCamLogs from "./pages/intern/internCamLogs";
 
 export default createBrowserRouter([
   {

@@ -1,16 +1,18 @@
-import { Empty, Image, Table } from "antd";
+import { Table } from "antd";
 import columns from "../../../tbl_col/internLogsTable";
 
 const InternLogsTable = ({ attendanceData }) => {
   const dataSource = [];
   const pushAttendance = (time, inout, image) => {
     const attendance = attendanceData?.ojt_attendance_attendance[0];
+    console.log(attendance?.total_rendered);
     attendance?.[`${time}`] &&
       dataSource.push({
         date: attendance.date,
         time: attendance[`${time}`],
         in_out: inout,
         image: attendance[`${image}`],
+        total_rendered: attendance.total_rendered,
       });
   };
   pushAttendance("in_am", "In (AM)", "am_in_img");

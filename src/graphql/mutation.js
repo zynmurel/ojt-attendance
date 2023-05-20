@@ -105,10 +105,15 @@ export const INSERT_INTERN_ATTENDANCE = gql`
 `;
 
 export const UPDATE_AM_OUT = gql`
-  mutation InsertAttendance($id: uuid!, $img: String, $time: String) {
+  mutation InsertAttendance(
+    $id: uuid!
+    $img: String
+    $time: String
+    $rendered: String
+  ) {
     update_ojt_attendance_attendance_by_pk(
       pk_columns: { id: $id }
-      _set: { am_out_img: $img, out_am: $time }
+      _set: { am_out_img: $img, out_am: $time, total_rendered: $rendered }
     ) {
       am_in_img
       am_out_img
@@ -148,10 +153,15 @@ export const UPDATE_PM_IN = gql`
   }
 `;
 export const UPDATE_PM_OUT = gql`
-  mutation InsertAttendance($id: uuid!, $img: String, $time: String) {
+  mutation InsertAttendance(
+    $id: uuid!
+    $img: String
+    $time: String
+    $rendered: String
+  ) {
     update_ojt_attendance_attendance_by_pk(
       pk_columns: { id: $id }
-      _set: { pm_out_img: $img, out_pm: $time }
+      _set: { pm_out_img: $img, out_pm: $time, total_rendered: $rendered }
     ) {
       am_in_img
       am_out_img

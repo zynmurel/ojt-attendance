@@ -5,10 +5,10 @@ import { useAuth } from "../../hooks/Auth";
 import moment from "moment";
 import WebCamIntern from "../../components/intern/internCamLogs/WebCamIntern";
 import InternLogsTable from "../../components/intern/internCamLogs/InternLogsTable";
+import { notification } from "antd";
 const InternCamLogs = () => {
   const { internId } = useAuth();
   const date = moment().format("L");
-  const time = moment().format();
   const [
     getAttendanceByIntern,
     {
@@ -18,6 +18,14 @@ const InternCamLogs = () => {
       refetch,
     },
   ] = useLazyQuery(GET_ATTENDACE_BY_INTERN);
+
+  const [successLogNotif, contextHolder] = notification.useNotification();
+  const openSuccessLogAttendance = (type, title, description) => {
+    successLogNotif[type]({
+      message: title,
+      description: description,
+    });
+  };
 
   useEffect(() => {
     getAttendanceByIntern({
@@ -31,14 +39,15 @@ const InternCamLogs = () => {
 
   return (
     <div className="flex justify-center flex-col  max-h-screen min-w-min">
-      <div className="flex flex-col items-center">
-        <h1 className="">Camera View</h1>
+      {contextHolder}
+      <div className="flex flex-col items-center mb-6">
+        <h1 className=" mt-0 text-lg">Camera View</h1>
         <WebCamIntern
           date={date}
-          time={time}
           refetch={refetch}
           attendanceData={attendanceData}
           attendaceLoading={attendaceLoading}
+          openSuccessLogAttendance={openSuccessLogAttendance}
         />
       </div>
       <InternLogsTable attendanceData={attendanceData} />
