@@ -5,6 +5,7 @@ const InternLogsTable = ({ attendanceData }) => {
   const dataSource = [];
   const pushAttendance = (time, inout, image) => {
     const attendance = attendanceData?.ojt_attendance_attendance[0];
+    console.log(attendance?.total_rendered);
     attendance?.[`${time}`] &&
       dataSource.push({
         date: attendance.date,
