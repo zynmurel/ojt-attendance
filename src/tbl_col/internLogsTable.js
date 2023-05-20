@@ -33,4 +33,9 @@ export default [
       );
     },
   },
+  {
+    title: "rendered",
+    dataIndex: "total_rendered",
+    key: "tr",
+  },
 ];
