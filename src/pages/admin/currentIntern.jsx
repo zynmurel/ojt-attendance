@@ -15,11 +15,11 @@ function CurrentIntern() {
     <div className=" flex justify-start w-full flex-col">
       <Title
         level={3}
-        className=" bg-white rounded-lg w-64 m-8 p-2 text-center"
+        className=" bg-white rounded-lg w-64 my-8 mx-2 p-2 text-center"
       >
         Current Interns
       </Title>
-      <div className="flex w-full  mt-10 flex-row flex-wrap">
+      <div className="flex w-full  mt-10 flex-row flex-wrap justify-center md:justify-start">
         {data &&
           data.ojt_attendance_user.map((intern) => (
             <div className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded">
