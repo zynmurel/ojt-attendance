@@ -1,4 +1,13 @@
-import { Button, Card, DatePicker, Form, Input, Typography, Radio } from "antd";
+import {
+  Button,
+  Card,
+  DatePicker,
+  Form,
+  Input,
+  Typography,
+  Radio,
+  InputNumber,
+} from "antd";
 import UploadProfile from "../../components/uploadProfile";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
@@ -29,6 +38,9 @@ const AddIntern = () => {
     ],
     username: [{ required: true, message: "Username is required!" }],
     email: [{ required: true, type: "email", message: "Email is required!" }],
+    hours_to_render: [
+      { required: true, message: "Hours to render is Required" },
+    ],
     contact_number: [
       () => ({
         validator(_, value) {
@@ -58,12 +70,11 @@ const AddIntern = () => {
     return /^(09|\+639)\d{9}$/.test(str);
   }
   const handleAddIntern = (values) => {
-    console.log(values);
     addIntern({
       variables: {
         role: "intern",
         password: process.env.REACT_APP_OJT_ATTENDANCE_INTERN_PASSWORD,
-        hours_to_render: 600,
+        hours_to_render: values.hours_to_render,
         profile_pic: imageToView,
         first_name: values.first_name,
         middle_name: values.middle_name,
@@ -96,6 +107,7 @@ const AddIntern = () => {
           </Typography.Title>
           <div className="flex ">
             <Button
+              htmlType="submit"
               style={{ backgroundColor: "#a8acb4" }}
               className="flex flex-row items-center h-8 w-50"
             >
@@ -175,7 +187,7 @@ const AddIntern = () => {
               <Input className=" w-full" />
             </Form.Item>
           </div>
-          <div className=" grid lg:grid-cols-4 w-full lg:mt-20 sm:grid-cols-1">
+          <div className=" grid lg:grid-cols-5 w-full lg:mt-20 sm:grid-cols-1">
             <Form.Item
               label="Username"
               name="username"
@@ -192,6 +204,14 @@ const AddIntern = () => {
                   </Radio.Button>
                 ))}
               </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              label="Hours to render"
+              name="hours_to_render"
+              rules={rules.hours_to_render}
+              className="w-3/4"
+            >
+              <InputNumber className=" w-full" />
             </Form.Item>
             <Form.Item
               label="Contact Number"
