@@ -12,44 +12,21 @@ import {
 } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 
-import { useAuth } from "../hooks/Auth";
+import { useAuth } from "../../hooks/Auth";
 
 const DashboardLayout = () => {
   const { userRole, logout } = useAuth();
-  const styles = {
-    menuIcons: { fontSize: 23 },
-  };
 
   const outlet = useOutlet();
   const navigate = useNavigate();
   const admin = [
-    getItem(
-      <AiOutlineDashboard style={styles.menuIcons} />,
-      "Dashboard",
-      "/admin"
-    ),
-    getItem(
-      <AiOutlineFileAdd style={styles.menuIcons} />,
-      "Add Intern",
-      "/admin/add-intern"
-    ),
-    getItem(
-      <AiOutlineFileSearch style={styles.menuIcons} />,
-      "Intern List",
-      "/admin/list-of-intern"
-    ),
+    getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
+    getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
+    getItem(<AiOutlineFileSearch />, "Intern List", "/admin/list-of-intern"),
   ];
   const intern = [
-    getItem(
-      <AiOutlineCamera style={styles.menuIcons} />,
-      "Camera View",
-      "/intern"
-    ),
-    getItem(
-      <AiOutlineClockCircle style={styles.menuIcons} />,
-      "Intern Logs",
-      "/intern/intern-logs"
-    ),
+    getItem(<AiOutlineCamera />, "Camera View", "/intern"),
+    getItem(<AiOutlineClockCircle />, "Intern Logs", "/intern/intern-logs"),
   ];
   const items = userRole === "admin" ? admin : intern;
   function getItem(icon, label, key, children) {
