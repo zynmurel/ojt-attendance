@@ -45,7 +45,7 @@ const WebCamIntern = ({
   };
   const computeHoursRendered = (rendered, ampm, time) => {
     const in_time = moment(dataArray[0][`${ampm}`]).format("hh:mm").split(":");
-    const out_time = moment(time).format("hh:mm").split(":");
+    const out_time = moment(time).format("HH:mm").split(":");
     const diffhours = out_time[0] - in_time[0];
     const isMore = +in_time[1] > +out_time[1];
     const hours = isMore ? diffhours - 1 : diffhours;
@@ -56,8 +56,14 @@ const WebCamIntern = ({
     if (!rendered) {
       return amTotal;
     }
-    const pmHrTotal = amTotal[0] + rendered[0];
-    const pmMinTotal = amTotal[1] + rendered[1];
+    const splitRendered = rendered.split(":");
+    const splitAmTotal = amTotal.split(":");
+    const pmHrTotal = +splitAmTotal[0] + +splitRendered[0];
+    const pmMinTotal = +splitAmTotal[1] + +splitRendered[1];
+    console.log("splitAm", splitAmTotal);
+    console.log("splitRender", splitRendered);
+    console.log("pm min total", pmMinTotal);
+    console.log("pm hr total", pmHrTotal);
     const pmHr = pmMinTotal >= 60 ? pmHrTotal + 1 : pmHrTotal;
     const pmMin = pmMinTotal >= 60 ? pmMinTotal - 60 : pmMinTotal;
     const pmTotal = `${pmHr}:${pmMin}`;
