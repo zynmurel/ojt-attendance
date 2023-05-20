@@ -1,6 +1,5 @@
-import { Empty, Image, Table } from "antd";
+import { Table } from "antd";
 import columns from "../../../tbl_col/internLogsTable";
-import moment from "moment";
 
 const InternLogsTable = ({ attendanceData }) => {
   const dataSource = [];

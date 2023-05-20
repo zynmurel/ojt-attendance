@@ -6,7 +6,7 @@ import {
   UPDATE_PM_IN,
   UPDATE_PM_OUT,
 } from "../../../graphql/mutation";
-import { Button, Skeleton } from "antd";
+import { Button } from "antd";
 import { useAuth } from "../../../hooks/Auth";
 import { ableInButton, ableOutButton } from "../../../helper/activeButton";
 import moment from "moment";
@@ -43,38 +43,23 @@ const WebCamIntern = ({
       },
     };
   };
-  const computeHoursRendered = (rendered, ampm, time) => {
-    const in_time = moment(dataArray[0][`${ampm}`]).format("hh:mm").split(":");
-    const out_time = moment(time).format("HH:mm").split(":");
-    const diffhours = out_time[0] - in_time[0];
-    const isMore = +in_time[1] > +out_time[1];
-    const hours = isMore ? diffhours - 1 : diffhours;
-    const mins = isMore
-      ? +out_time[1] + (60 - in_time[1])
-      : out_time[1] - in_time[1];
-    const amTotal = `${hours}:${mins}`;
-    if (!rendered) {
-      return amTotal;
-    }
-    const splitRendered = rendered.split(":");
-    const splitAmTotal = amTotal.split(":");
-    const pmHrTotal = +splitAmTotal[0] + +splitRendered[0];
-    const pmMinTotal = +splitAmTotal[1] + +splitRendered[1];
-    console.log("splitAm", splitAmTotal);
-    console.log("splitRender", splitRendered);
-    console.log("pm min total", pmMinTotal);
-    console.log("pm hr total", pmHrTotal);
-    const pmHr = pmMinTotal >= 60 ? pmHrTotal + 1 : pmHrTotal;
-    const pmMin = pmMinTotal >= 60 ? pmMinTotal - 60 : pmMinTotal;
-    const pmTotal = `${pmHr}:${pmMin}`;
-    return pmTotal;
-  };
   const [addAttendance] = useMutation(INSERT_INTERN_ATTENDANCE, toRefetch());
   const [updateAmOut] = useMutation(UPDATE_AM_OUT, toRefetch());
   const [updatePmIn] = useMutation(UPDATE_PM_IN, toRefetch());
   const [updatePmOut] = useMutation(UPDATE_PM_OUT, toRefetch());
+
+  const dataArray = attendanceData?.ojt_attendance_attendance;
+  const activeInButton = ableInButton(dataArray);
+  const activeOutButton = ableOutButton(dataArray, activeInButton);
+
   const onSubmitLog = (screenshot, dataArray, date) => {
     const time = moment().format();
+    if (!screenshot) {
+      return openSuccessLogAttendance(
+        "error",
+        "Please retry or refresh the page."
+      );
+    }
     if (dataArray?.length === 0) {
       addAttendance({
         variables: {
@@ -103,11 +88,6 @@ const WebCamIntern = ({
             time
           ),
         },
-      }).then(() => {
-        console.log(
-          "here",
-          computeHoursRendered(dataArray[0].total_rendered, "in_am", time)
-        );
       });
     } else if (dataArray?.[0].in_pm === null) {
       updatePmIn({
@@ -129,18 +109,35 @@ const WebCamIntern = ({
             time
           ),
         },
-      }).then(() => {
-        console.log(
-          "here",
-          computeHoursRendered(dataArray[0].total_rendered, "in_pm", time)
-        );
       });
     }
   };
 
-  const dataArray = attendanceData?.ojt_attendance_attendance;
-  const activeInButton = ableInButton(dataArray);
-  const activeOutButton = ableOutButton(dataArray, activeInButton);
+  const computeHoursRendered = (rendered, ampm, time) => {
+    const in_time = moment(dataArray[0][`${ampm}`]).format("HH:mm").split(":");
+    const out_time = moment(time).format("HH:mm").split(":");
+    const diffhours = out_time[0] - in_time[0];
+    const isMore = +in_time[1] > +out_time[1];
+    const hours = isMore ? diffhours - 1 : diffhours;
+    const mins = isMore
+      ? +out_time[1] + (60 - in_time[1])
+      : out_time[1] - in_time[1];
+    const amTotal = `${hours}:${mins}`;
+    if (!rendered) {
+      return amTotal;
+    }
+
+    const splitRendered = rendered.split(":");
+    const splitInTime = amTotal.split(":");
+
+    const pmHrTotal = +splitInTime[0] + +splitRendered[0];
+    const pmMinTotal = +splitInTime[1] + +splitRendered[1];
+    const pmHr = pmMinTotal >= 60 ? pmHrTotal + 1 : pmHrTotal;
+    const pmMin = pmMinTotal >= 60 ? pmMinTotal - 60 : pmMinTotal;
+    const pmTotal = `${pmHr}:${pmMin}`;
+    return pmTotal;
+  };
+
   return (
     <Webcam width={380} videoConstraints={videoConstraints} mirrored={true}>
       {({ getScreenshot }) => (
