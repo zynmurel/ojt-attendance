@@ -1,16 +1,17 @@
 import { useQuery } from "@apollo/client";
-import { Card, Typography } from "antd";
+import { Skeleton, Typography, message } from "antd";
 // ant d UI for design
 import React from "react";
 import { GET_INTERN } from "../../graphql/query";
 
-//typography Title
 const { Title } = Typography;
-// meta is a sub compnent of card
-const { Meta } = Card;
 function CurrentIntern() {
+  const dummySkeletonUser = [1, 2, 3, 4];
   // Get_User Query Data
   const { data, loading, error } = useQuery(GET_INTERN);
+  if (error) {
+    return `Submision Error! ${message.error}`;
+  }
 
   const computeHrMn = (intern) => {
     let timeRendered;
@@ -47,13 +48,22 @@ function CurrentIntern() {
   };
   return (
     <div className=" flex justify-start w-full flex-col">
-      <Title
-        level={3}
-        className=" bg-white rounded-lg w-64 my-8 mx-2 p-2 text-center"
-      >
-        Current Interns
-      </Title>
-      <div className="flex w-full  mt-10 flex-row flex-wrap justify-center md:justify-start">
+      <div className=" w-full flex justify-center sm:justify-start">
+        <Title
+          level={3}
+          className=" bg-white rounded-lg w-64  p-2 text-center m-4"
+        >
+          Current Interns
+        </Title>
+      </div>
+      <div className="flex w-full  mt-10 flex-row flex-wrap  justify-center md:justify-start">
+        {loading && (
+          <div className="flex w-full  mt-10 flex-row flex-wrap gap-5">
+            {dummySkeletonUser.map((_) => (
+              <Skeleton.Avatar key={_} active shape="square" size={275} />
+            ))}
+          </div>
+        )}
         {data &&
           data.ojt_attendance_user.map((intern) => {
             const time = computeHrMn(intern);
