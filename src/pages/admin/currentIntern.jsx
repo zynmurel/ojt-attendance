@@ -11,6 +11,7 @@ const { Meta } = Card;
 function CurrentIntern() {
   // Get_User Query Data
   const { data, loading, error } = useQuery(GET_INTERN);
+  console.log(data && data);
   return (
     <div className=" flex justify-start w-full flex-col">
       <Title
