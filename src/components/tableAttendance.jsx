@@ -70,7 +70,9 @@ const TableAttendance = () => {
   const emptyData = [];
 
   const filterDateRangeTable = (dates, dateStrings) => {
+    if (!dates) return setFilteredData(InternData?.ojt_attendance_user);
     const [startDate, endDate] = dates;
+    console.log(startDate, endDate);
 
     // Format the dates using Moment.js
     const formattedStartDate = moment(startDate.format()).format("MM/DD/YYYY");

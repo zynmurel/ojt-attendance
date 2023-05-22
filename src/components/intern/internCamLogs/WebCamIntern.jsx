@@ -55,10 +55,7 @@ const WebCamIntern = ({
   const onSubmitLog = (screenshot, dataArray, date) => {
     const time = moment().format();
     if (!screenshot) {
-      return openSuccessLogAttendance(
-        "error",
-        "Please retry or refresh the page."
-      );
+      return openSuccessLogAttendance("error", "Photo not captured. Try again");
     }
     if (dataArray?.length === 0) {
       addAttendance({
