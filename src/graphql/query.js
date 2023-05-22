@@ -41,6 +41,9 @@ export const GET_INTERN = gql`
       username
       start_date
       id
+      attendances {
+        total_rendered
+      }
     }
   }
 `;
