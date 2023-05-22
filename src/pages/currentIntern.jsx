@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Card, Typography } from "antd";
+import { Card, Typography, Skeleton } from "antd";
 // ant d UI for design
 import React from "react";
 import { GET_INTERN } from "../graphql/query";
@@ -11,6 +11,9 @@ const { Meta } = Card;
 function CurrentIntern() {
   // Get_User Query Data
   const { data, loading, error } = useQuery(GET_INTERN);
+  if (loading) return <Skeleton active />;
+  if (error) return `Error! ${error.message}`;
+
   return (
     <div className=" flex justify-start w-full">
       <div>
