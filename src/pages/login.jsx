@@ -14,21 +14,12 @@ const rules = {
       required: true,
       message: "password incorrect",
     },
-    // {
-    //   validator: (_, value) => {
-    //     const regex =
-    //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{8,})/;
-    //     if (!regex.test(value)) {
-    //       return Promise.reject(new Error("password incorrect!"));
-    //     }
-    //     return Promise.resolve();
-    //   },
-    // },
   ],
 };
 const Login = () => {
   const { login, userToken } = useAuth();
   const [form] = Form.useForm();
+
   // data in  Query
   const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER, {
     variables: {
@@ -36,6 +27,19 @@ const Login = () => {
       password: form.getFieldValue("password"),
     },
   });
+
+  if (data?.ojt_attendance_user.length === 0) {
+    form.setFields([
+      {
+        name: "username",
+        errors: ["User not found"],
+      },
+      {
+        name: "password",
+        errors: ["User not found"],
+      },
+    ]);
+  }
 
   //condition if has token redirect to dashboard
   if (userToken) {

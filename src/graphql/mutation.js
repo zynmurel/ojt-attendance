@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const ADD_INTERN = gql`
   mutation InsertUser(
-    $hours_to_render: Int
+    $hours_to_render: String
     $contact_number: String
     $email: String
     $first_name: String
