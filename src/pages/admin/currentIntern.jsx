@@ -1,17 +1,18 @@
 import { useQuery } from "@apollo/client";
 import { Skeleton, Typography, message } from "antd";
 // ant d UI for design
-import React from "react";
+import React, { useEffect } from "react";
 import { GET_INTERN } from "../../graphql/query";
 
 const { Title } = Typography;
 function CurrentIntern() {
   const dummySkeletonUser = [1, 2, 3, 4];
   // Get_User Query Data
-  const { data, loading, error } = useQuery(GET_INTERN);
-  if (error) {
-    return `Submision Error! ${message.error}`;
-  }
+  const { data, loading, refetch } = useQuery(GET_INTERN);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const computeHrMn = (intern) => {
     let timeRendered;
