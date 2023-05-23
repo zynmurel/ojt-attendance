@@ -9,10 +9,10 @@ export const columns = [
     render: (record) => (
       <div className=" flex gap-2">
         <Typography.Text className="capitalize">
-          {record.first_name}{" "}
+          {record.first_name}
         </Typography.Text>
         <Typography.Text className="capitalize">
-          {record.last_name}{" "}
+          {record.last_name}
         </Typography.Text>
       </div>
     ),

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Card,
@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   Image,
+  List,
 } from "antd";
 import { GET_INTERN } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
@@ -24,7 +25,21 @@ const InternList = () => {
   const { data: InternData, loading, error } = useQuery(GET_INTERN);
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const emptyData = [];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const filterDateRangeTable = (dates, dateStrings) => {
     if (!dates) return setFilteredData(InternData?.ojt_attendance_user);
@@ -88,12 +103,12 @@ const InternList = () => {
 
   return (
     <div className="bg-white">
-      <Card className="w-full h-18 mb-10" direction="horizontal">
-        <div className="flex flex-row gap-6 items-center">
+      <Card className="  w-full h-18 mb-10  ">
+        <div className="flex flex-col sm:flex-row  gap-6 items-center">
           <Title level={3}>Intern Attendance</Title>
 
           <RangePicker
-            className="h-9 text-black"
+            className="h-9 text-black sm:w-1/5  w-full  "
             format="MM/DD/YY"
             onChange={filterDateRangeTable}
           />
@@ -101,20 +116,65 @@ const InternList = () => {
           <Search
             placeholder="Input search text"
             onChange={(e) => onSearch(e.target.value)}
-            style={{ width: 200 }}
+            className=" sm:w-1/5  w-full "
           />
 
           <Button
             style={{ backgroundColor: "#a8acb4" }}
-            className="flex flex-row items-center h-10 w-50"
+            className=" flex sm:flex-row items-center sm:self-start self-end"
             onClick={exportToExcel}
           >
-            <AiOutlineFileExcel className="mr-5" fontSize={30} />
+            <AiOutlineFileExcel
+              className="mr-5 hidden sm:block "
+              fontSize={30}
+            />
             <div>Export Excel</div>
           </Button>
         </div>
       </Card>
-      {dateRange && dateRange.length > 0 && filteredData.length === 0 ? (
+      {isMobile ? (
+        <List
+          className=" px-10"
+          itemLayout="horizontal"
+          dataSource={
+            filteredData.length > 0
+              ? filteredData
+              : InternData?.ojt_attendance_user
+          }
+          renderItem={(record) => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  <div className="flex gap-2">
+                    <Typography.Text className="capitalize">
+                      {record.first_name}
+                    </Typography.Text>
+                    <Typography.Text className="capitalize">
+                      {record.last_name}
+                    </Typography.Text>
+                  </div>
+                }
+                description={
+                  <>
+                    <div>School Name: {record.school_name}</div>
+                    <div>School Address: {record.school_address}</div>
+                    <div>Contact Number: {record.contact_number}</div>
+                    <div>Username: {record.username}</div>
+                    <div>
+                      Start Date: {moment(record.start_date).format("MM/DD/YY")}
+                    </div>
+                  </>
+                }
+              />
+              <Image
+                src={record.profile_pic}
+                alt="Profile"
+                style={{ width: 50, height: 50 }}
+              />
+            </List.Item>
+          )}
+        />
+      ) : dateRange && dateRange.length > 0 && filteredData.length === 0 ? (
         <Table dataSource={emptyData} columns={columns} />
       ) : (
         <Table
