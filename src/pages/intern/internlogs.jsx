@@ -6,6 +6,7 @@ import { INTERN_LOGS } from "../../graphql/query";
 import { useAuth } from "../../hooks/Auth";
 import { columns } from "../../tbl_col/internColumn";
 import moment from "moment";
+import { Card, Form, Typography, DatePicker } from "antd";
 
 function Internlogs() {
   const { internId } = useAuth();
