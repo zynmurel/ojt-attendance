@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Form, Typography, DatePicker } from "antd";
-import TableInternLogs from "../../components/tableInternlogs";
 
 function Internlogs() {
   const styles = {
@@ -26,7 +25,6 @@ function Internlogs() {
           </div>
         </div>
       </Card>
-      <TableInternLogs />
     </div>
   );
 }

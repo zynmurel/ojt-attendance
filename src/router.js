@@ -5,7 +5,6 @@ import Login from "./pages/login";
 // pages for admin
 import CurrentIntern from "./pages/admin/currentIntern";
 import AddIntern from "./pages/admin/addIntern";
-import InternList from "./pages/admin/internList";
 
 //pages for intern
 import InternCamLogs from "./pages/intern/internCamLogs";
@@ -14,6 +13,7 @@ import Internlogs from "./pages/intern/internlogs";
 //pages for utilities
 import { ProtectedLayout } from "./utils/routeGuard";
 import { RoleGuardLayout } from "./utils/roleGuard";
+import InternList from "./pages/admin/internList";
 
 export default createBrowserRouter([
   {
