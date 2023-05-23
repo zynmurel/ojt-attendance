@@ -74,7 +74,7 @@ const AddIntern = () => {
       variables: {
         role: "intern",
         password: process.env.REACT_APP_OJT_ATTENDANCE_INTERN_PASSWORD,
-        hours_to_render: values.hours_to_render,
+        hours_to_render: `${values.hours_to_render}`,
         profile_pic: imageToView,
         first_name: values.first_name,
         middle_name: values.middle_name,

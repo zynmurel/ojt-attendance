@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   AiOutlineFileAdd,
@@ -16,6 +16,7 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
   const navigate = useNavigate();
   // user auth
   const { userRole, logout } = useAuth();
+  const location = useLocation();
   const admin = [
     getItem(<AiOutlineDashboard />, "Dashboard", "/admin"),
     getItem(<AiOutlineFileAdd />, "Add Intern", "/admin/add-intern"),
@@ -53,7 +54,7 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
             <img className=" w-full mt-5 " src="/DigitalImage.jpg" />
 
             <Menu
-              defaultSelectedKeys={[`/${userRole}`]}
+              defaultSelectedKeys={[`${location.pathname}`]}
               items={items}
               onClick={handleMenuclick}
               mode="inline"
@@ -100,7 +101,7 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
               mode="inline"
               items={items}
               onClick={handleMenuMobileClick}
-              defaultSelectedKeys={[`/${userRole}`]}
+              defaultSelectedKeys={[`${location.pathname}`]}
             />
             <Button
               type="text"
