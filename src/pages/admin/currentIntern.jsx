@@ -31,7 +31,7 @@ function CurrentIntern() {
     let hr = +intern.hours_to_render;
     let min = 0;
     if (timeRendered?.[1] >= 60) {
-      const excessHr = timeRendered[1] / 60;
+      const excessHr = Math.floor(timeRendered[1] / 60);
       timeRendered = [
         `${timeRendered[0] + excessHr}`,
         `${timeRendered[1] % 60}`,
@@ -67,6 +67,7 @@ function CurrentIntern() {
         {data &&
           data.ojt_attendance_user.map((intern) => {
             const time = computeHrMn(intern);
+            let fullname = intern.first_name + " " + intern.last_name;
             return (
               <div className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded">
                 <div className=" h-full rounded flex items-center  overflow-hidden">
@@ -77,7 +78,9 @@ function CurrentIntern() {
                   />
                 </div>
                 <div className=" w-full m-h-24 self-end p-5">
-                  <p className=" text-sm my-0 ">{intern.first_name}</p>
+                  <Typography.Text className="capitalize text-lg font-bold">
+                    {fullname}
+                  </Typography.Text>
                   <p className=" m-0 text-sm">
                     {`Hours to render: ${time[0]}hrs ${time[1]}mins`}
                   </p>
