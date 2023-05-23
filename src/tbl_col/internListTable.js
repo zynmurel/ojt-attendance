@@ -1,11 +1,21 @@
 import { Image } from "antd";
+import Typography from "antd/es/typography/Typography";
 import moment from "moment";
 
 export const columns = [
   {
     title: "Name",
     key: "name",
-    render: (record) => `${record.first_name} ${record.last_name}`,
+    render: (record) => (
+      <div className=" flex gap-2">
+        <Typography.Text className="capitalize">
+          {record.first_name}{" "}
+        </Typography.Text>
+        <Typography.Text className="capitalize">
+          {record.last_name}{" "}
+        </Typography.Text>
+      </div>
+    ),
   },
   {
     title: "School Name",
