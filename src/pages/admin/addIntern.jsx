@@ -7,6 +7,7 @@ import {
   Typography,
   Radio,
   InputNumber,
+  notification,
 } from "antd";
 import UploadProfile from "../../components/uploadProfile";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -17,6 +18,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const { Text } = Typography;
 const AddIntern = () => {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type, message, description) => {
+    api[type]({
+      message: message,
+      description: description,
+    });
+  };
   const [imageToView, setImageToView] = useState(null);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -87,6 +95,12 @@ const AddIntern = () => {
         contact_number: values.contact_number,
         email: values.email,
       },
+    }).catch((error) => {
+      openNotificationWithIcon(
+        "error",
+        "Add Intern Error",
+        "Username already used!"
+      );
     });
   };
   return (
@@ -96,6 +110,7 @@ const AddIntern = () => {
       onFinish={handleAddIntern}
       form={form}
     >
+      {contextHolder}
       <Card className="mb-5 px-10">
         <div className="flex justify-between items-center w-full">
           <Typography.Title
