@@ -68,3 +68,22 @@ export const GET_ATTENDACE_BY_INTERN = gql`
     }
   }
 `;
+
+export const INTERN_LOGS = gql`
+  query GetAttendance($id: uuid) {
+    ojt_attendance_attendance(where: { intern_id: { _eq: $id } }) {
+      am_in_img
+      am_out_img
+      date
+      in_am
+      in_pm
+      out_am
+      out_pm
+      pm_in_img
+      pm_out_img
+      total_rendered
+      id
+      intern_id
+    }
+  }
+`;
