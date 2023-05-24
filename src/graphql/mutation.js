@@ -104,64 +104,14 @@ export const INSERT_INTERN_ATTENDANCE = gql`
   }
 `;
 
-export const UPDATE_AM_OUT = gql`
+export const UPDATE_ATTENDANCE_LOG = gql`
   mutation InsertAttendance(
-    $id: uuid!
-    $img: String
-    $time: String
-    $rendered: String
+    $intern_id: uuid!
+    $set: ojt_attendance_attendance_set_input
   ) {
     update_ojt_attendance_attendance_by_pk(
-      pk_columns: { id: $id }
-      _set: { am_out_img: $img, out_am: $time, total_rendered: $rendered }
-    ) {
-      am_in_img
-      am_out_img
-      date
-      id
-      in_am
-      in_pm
-      intern_id
-      out_am
-      out_pm
-      pm_in_img
-      pm_out_img
-      total_rendered
-    }
-  }
-`;
-
-export const UPDATE_PM_IN = gql`
-  mutation InsertAttendance($id: uuid!, $img: String, $time: String) {
-    update_ojt_attendance_attendance_by_pk(
-      pk_columns: { id: $id }
-      _set: { pm_in_img: $img, in_pm: $time }
-    ) {
-      am_in_img
-      am_out_img
-      date
-      id
-      in_am
-      in_pm
-      intern_id
-      out_am
-      out_pm
-      pm_in_img
-      pm_out_img
-      total_rendered
-    }
-  }
-`;
-export const UPDATE_PM_OUT = gql`
-  mutation InsertAttendance(
-    $id: uuid!
-    $img: String
-    $time: String
-    $rendered: String
-  ) {
-    update_ojt_attendance_attendance_by_pk(
-      pk_columns: { id: $id }
-      _set: { pm_out_img: $img, out_pm: $time, total_rendered: $rendered }
+      pk_columns: { id: $intern_id }
+      _set: $set
     ) {
       am_in_img
       am_out_img
