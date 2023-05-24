@@ -17,9 +17,9 @@ function Internlogs() {
 
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState([]);
-  const emptyData = [];
 
   const [sortOrder, setSortOrder] = useState(null);
+  const emptyData = [];
 
   const filterDateRangeTable = (dates, dateStrings) => {
     if (!dates) return setFilteredData(InternData?.ojt_attendance_attendance);
@@ -40,7 +40,6 @@ function Internlogs() {
     setFilteredData(filteredResults);
     setDateRange(dates);
   };
-  console.log(filteredData.length);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setSortOrder(sorter.order);
@@ -52,6 +51,7 @@ function Internlogs() {
     }
     return null;
   };
+
   const styles = {
     title: {
       fontWeight: "bolder",

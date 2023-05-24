@@ -9,6 +9,15 @@ import { notification } from "antd";
 const InternCamLogs = () => {
   const { internId } = useAuth();
   const date = moment().format("L");
+
+  const [successLogNotif, contextHolder] = notification.useNotification();
+  const openLogAttendanceNotif = (type, title, description) => {
+    successLogNotif[type]({
+      message: title,
+      description: description,
+    });
+  };
+
   const [
     getAttendanceByIntern,
     {
@@ -17,15 +26,11 @@ const InternCamLogs = () => {
       loading: attendaceLoading,
       refetch,
     },
-  ] = useLazyQuery(GET_ATTENDACE_BY_INTERN);
-
-  const [successLogNotif, contextHolder] = notification.useNotification();
-  const openSuccessLogAttendance = (type, title, description) => {
-    successLogNotif[type]({
-      message: title,
-      description: description,
-    });
-  };
+  ] = useLazyQuery(GET_ATTENDACE_BY_INTERN, {
+    onError() {
+      openLogAttendanceNotif("error", "Data not fetched");
+    },
+  });
 
   useEffect(() => {
     getAttendanceByIntern({
@@ -34,7 +39,6 @@ const InternCamLogs = () => {
         intern_id: internId,
       },
     });
-    refetch();
   }, [attendanceData]);
 
   return (
@@ -47,7 +51,7 @@ const InternCamLogs = () => {
           refetch={refetch}
           attendanceData={attendanceData}
           attendaceLoading={attendaceLoading}
-          openSuccessLogAttendance={openSuccessLogAttendance}
+          openLogAttendanceNotif={openLogAttendanceNotif}
         />
       </div>
       <InternLogsTable attendanceData={attendanceData} />

@@ -5,6 +5,7 @@ import { LOGIN_USER } from "../graphql/query";
 import { useLazyQuery } from "@apollo/client";
 import { useAuth } from "../hooks/Auth";
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 const { Text } = Typography;
 // Rules and Validation
 const rules = {
@@ -21,37 +22,53 @@ const Login = () => {
   const [form] = Form.useForm();
 
   // data in  Query
-  const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER, {
-    variables: {
-      username: form.getFieldValue("username"),
-      password: form.getFieldValue("password"),
-    },
-  });
+  const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER);
 
-  if (data?.ojt_attendance_user.length === 0) {
-    form.setFields([
-      {
-        name: "username",
-        errors: ["User not found"],
-      },
-      {
-        name: "password",
-        errors: ["User not found"],
-      },
-    ]);
-  }
+  useEffect(() => {
+    //checker if user was found on login
+    noUserFound();
 
-  //condition if has token redirect to dashboard
-  if (userToken) {
-    return <Navigate to="/" />;
-  }
-  // Condition in the admin to the dashboard
-  if (data && data.ojt_attendance_user.length !== 0) {
-    login(data.ojt_attendance_user[0]);
-  }
+    //condition if has token redirect to dashboard
+    noUserToken();
+
+    // Condition in the admin to the dashboard
+    toLogin();
+  }, [data]);
+
+  const noUserFound = () => {
+    if (data?.ojt_attendance_user.length === 0) {
+      form.setFields([
+        {
+          name: "username",
+          errors: ["User not found"],
+        },
+        {
+          name: "password",
+          errors: ["User not found"],
+        },
+      ]);
+    }
+  };
+
+  const noUserToken = () => {
+    if (userToken) {
+      return <Navigate to="/" />;
+    }
+  };
+
+  const toLogin = () => {
+    if (data && data.ojt_attendance_user.length !== 0) {
+      login(data.ojt_attendance_user[0]);
+    }
+  };
 
   const onLogin = (value) => {
-    getUser();
+    getUser({
+      variables: {
+        username: value.username,
+        password: value.password,
+      },
+    });
   };
   return (
     <div
