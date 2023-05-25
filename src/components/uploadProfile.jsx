@@ -1,6 +1,9 @@
-import { Form, Upload, Modal } from "antd";
 import { useState } from "react";
+
+//third party libraries
+import { Form, Upload, Modal, Image } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+
 const UploadProfile = ({ imageToView, setImageToView }) => {
   const [viewPhoto, setViewPhoto] = useState(false);
 
@@ -69,7 +72,7 @@ const UploadProfile = ({ imageToView, setImageToView }) => {
   return (
     <>
       <Modal open={viewPhoto} onCancel={togglePhotoModal} footer={null}>
-        <img
+        <Image
           alt="Profile Picture"
           style={{ width: "100%" }}
           src={imageToView}

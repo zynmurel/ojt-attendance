@@ -1,3 +1,6 @@
+import { useContext, useState } from "react";
+
+//third party libraries
 import {
   Button,
   Card,
@@ -8,19 +11,27 @@ import {
   Radio,
   InputNumber,
   notification,
+  theme,
 } from "antd";
 import UploadProfile from "../../components/uploadProfile";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { ADD_INTERN } from "../../graphql/mutation";
 import moment from "moment";
-import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { MyContext } from "../../layout/dashboardLayout";
+
 const { Text } = Typography;
 const AddIntern = () => {
   const [imageToView, setImageToView] = useState(null);
   const { handleSuccessAddIntern } = useContext(MyContext);
+
+  //theme
+  const {
+    token: { colorBgLayout },
+  } = theme.useToken();
+
   //notification
   const [errorAddIntern, contextHolder] = notification.useNotification();
   const handleErrorAddIntern = (type, message, description) => {
@@ -135,10 +146,10 @@ const AddIntern = () => {
           <div className="flex ">
             <Button
               htmlType="submit"
-              style={{ backgroundColor: "#a8acb4" }}
+              style={{ backgroundColor: colorBgLayout }}
               className="flex flex-row items-center h-8 w-50"
             >
-              <AiOutlineFileAdd className="mr-5 " fontSize={30} />
+              <AiOutlineFileAdd className="mr-5 " fontSize={24} />
               <p> Add Intern </p>
             </Button>
           </div>
