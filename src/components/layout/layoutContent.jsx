@@ -1,5 +1,5 @@
+//third party libraries
 import { useLocation, useNavigate } from "react-router-dom";
-
 import {
   AiOutlineFileAdd,
   AiOutlineDashboard,
@@ -11,7 +11,9 @@ import { BiLogOut } from "react-icons/bi";
 import { CloseOutlined } from "@ant-design/icons";
 import Sider from "antd/es/layout/Sider";
 import { Button, Drawer, Image, Menu, theme } from "antd";
+
 import { useAuth } from "../../hooks/Auth";
+
 const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
   const navigate = useNavigate();
   // user auth
@@ -58,7 +60,7 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
             <Image
               preview={false}
               width={190}
-              className=" w-full mt-5 mx-2"
+              className=" mt-5 mx-2"
               src={imgSrc}
             />
 
