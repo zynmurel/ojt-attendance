@@ -51,6 +51,6 @@ export const columns = [
   {
     title: "Start Date",
     key: "start_date",
-    render: (record) => moment(record.start_date).format("MM/DD/YY"),
+    render: (record) => moment(record.start_date).format("YYYY-MM-DD"),
   },
 ];
