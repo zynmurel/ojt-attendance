@@ -79,4 +79,14 @@ export const columns = [
       else return <></>;
     },
   },
+  {
+    title: "Time Rendered",
+    key: "rendered",
+    render: (record) => {
+      if (record.total_rendered !== null) {
+        const rendered = record.total_rendered.split(":");
+        return <>{`${rendered[0]} hrs ${rendered[1]} mins`}</>;
+      } else return <></>;
+    },
+  },
 ];
