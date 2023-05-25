@@ -23,9 +23,7 @@ const { Title } = Typography;
 const { Search } = Input;
 
 const InternList = () => {
-  const { data: InternData, loading, error } = useQuery(GET_INTERN);
-  const [filteredData, setFilteredData] = useState([]);
-  const [dateRange, setDateRange] = useState([]);
+  const { data: InternData } = useQuery(GET_INTERN);
   const [isMobile, setIsMobile] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchDate, setSearchDate] = useState(null);
@@ -53,9 +51,7 @@ const InternList = () => {
       "YYYY-MM-DD"
     )}T21:59:59+00:00"}}]}`;
   }
-  const [getIntern, { loadingData, data }] = useLazyQuery(
-    FILTER_INTERN(condition)
-  );
+  const [getIntern, { data }] = useLazyQuery(FILTER_INTERN(condition));
 
   if (searchDate || searchText) {
     tableData = data?.ojt_attendance_user;
@@ -74,15 +70,13 @@ const InternList = () => {
     };
   }, []);
 
-  const handleInput = debounce((event) => {
-    const { value } = event.target;
-    setSearchText(event.target.value);
-    console.log(value);
-  }, 1000);
-
   useEffect(() => {
     getIntern({ variables: { search: searchText } });
-  }, [searchDate, searchText]);
+  }, [searchDate, searchText, getIntern]);
+
+  const handleInput = debounce((event) => {
+    setSearchText(event.target.value);
+  }, 1000);
 
   const exportToExcel = () => {
     const tableDataForExport = tableData.map((record) => ({
@@ -105,8 +99,6 @@ const InternList = () => {
     });
     saveAs(data, `Intern_List.xlsx`);
   };
-
-  console.log(tableData);
   return (
     <div>
       <Card className="  w-full h-18 mb-10  ">

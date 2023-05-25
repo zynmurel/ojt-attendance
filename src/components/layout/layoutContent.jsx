@@ -17,10 +17,10 @@ import { useAuth } from "../../hooks/Auth";
 const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
   const navigate = useNavigate();
   // user auth
-  const { userRole, logout } = useAuth();
+  const { userRole } = useAuth();
   const location = useLocation();
   const {
-    token: { colorBgBase, colorWarning },
+    token: { colorBgBase },
   } = theme.useToken();
   const imgSrc = "/DigitalImage.jpg";
   const admin = [

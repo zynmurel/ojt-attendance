@@ -20,12 +20,7 @@ const InternCamLogs = () => {
 
   const [
     getAttendanceByIntern,
-    {
-      data: attendanceData,
-      error: attendanceError,
-      loading: attendaceLoading,
-      refetch,
-    },
+    { data: attendanceData, loading: attendaceLoading, refetch },
   ] = useLazyQuery(GET_ATTENDACE_BY_INTERN, {
     onError() {
       openLogAttendanceNotif("error", "Data not fetched");
@@ -39,7 +34,7 @@ const InternCamLogs = () => {
         intern_id: internId,
       },
     });
-  }, [attendanceData]);
+  }, [attendanceData, date, internId, getAttendanceByIntern]);
 
   return (
     <div className="flex justify-center flex-col  max-h-screen min-w-min">

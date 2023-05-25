@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   query GetUser($username: String, $password: String) {

@@ -32,7 +32,7 @@ const UserProfile = () => {
       <Dropdown placement="bottomLeft" dropdownRender={dropdownRender}>
         <div className="h-full flex w-full flex-nowrap items-center">
           <div className=" w-10 h-10 rounded-full flex items-center  overflow-hidden">
-            {userRole == "admin" && (
+            {userRole === "admin" && (
               <Avatar
                 size="large"
                 style={{ backgroundColor: colorBgBase }}
@@ -44,7 +44,7 @@ const UserProfile = () => {
                 }
               />
             )}
-            {userRole != "admin" && (
+            {userRole !== "admin" && (
               <img
                 src={userProfile}
                 alt="user_profile"
@@ -53,7 +53,7 @@ const UserProfile = () => {
             )}
           </div>
           <div className="flex flex-col items-center self-center mx-2">
-            {userRole != "admin" && (
+            {userRole !== "admin" && (
               <Text strong className="w-full capitalize">
                 {userName}
               </Text>
