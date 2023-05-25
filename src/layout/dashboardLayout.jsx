@@ -13,6 +13,7 @@ const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
 
+  //notification
   const [successAddIntern, contextHolder] = notification.useNotification();
   const handleSuccessAddIntern = (type, message, description) => {
     successAddIntern[type]({
@@ -63,7 +64,7 @@ const DashboardLayout = () => {
               style={{ backgroundColor: colorBgBase, padding: 0 }}
               className=" flex items-center justify-start"
             >
-              <div className="flex justify-between md:justify-start w-full p-3 items-center">
+              <div className="flex justify-between sm:justify-end lg:justify-start w-full p-3 items-center">
                 {!isMobileView &&
                   React.createElement(
                     collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -72,12 +73,7 @@ const DashboardLayout = () => {
                       onClick: toggleSideBar,
                     }
                   )}
-                <Image
-                  preview={false}
-                  width={140}
-                  className=" flex sm:justify-end"
-                  src={imgSrc}
-                />
+                <Image preview={false} width={140} src={imgSrc} />
               </div>
             </Header>
             <Content
