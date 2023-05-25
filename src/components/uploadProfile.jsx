@@ -53,7 +53,6 @@ const UploadProfile = ({ imageToView, setImageToView }) => {
   const profilePhotoRequest = ({ file, onSuccess }) => {
     getBase64(file, (url) => {
       setImageToView(url);
-      console.log(url);
       onSuccess("ok");
     });
   };

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useOutlet } from "react-router-dom";
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Grid, Layout } from "antd";
+import { Grid, Image, Layout, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import LayoutContent from "../components/layout/layoutContent";
 
@@ -11,6 +11,10 @@ const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
 
+  const {
+    token: { colorBgLayout, colorBgBase },
+  } = theme.useToken();
+  const imgSrc = "/InternAttendance.jpg";
   const outlet = useOutlet();
   const screens = Grid.useBreakpoint();
 
@@ -32,6 +36,7 @@ const DashboardLayout = () => {
   const toggleSideBar = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <>
       <Layout className="min-h-screen">
@@ -42,7 +47,7 @@ const DashboardLayout = () => {
         />
         <Layout>
           <Header
-            style={{ backgroundColor: "#ffff", padding: 0 }}
+            style={{ backgroundColor: colorBgBase, padding: 0 }}
             className=" flex items-center justify-start"
           >
             <div className="flex justify-between md:justify-start w-full p-3 items-center">
@@ -54,16 +59,18 @@ const DashboardLayout = () => {
                     onClick: toggleSideBar,
                   }
                 )}
-              <img
-                className=" w-28 flex sm:justify-end"
-                src="/InternAttendance.jpg"
+              <Image
+                preview={false}
+                width={120}
+                className=" flex sm:justify-end"
+                src={imgSrc}
               />
             </div>
           </Header>
           <Content
             className=" p-5 overflow-auto h-96"
             style={{
-              background: "#989ca4",
+              background: colorBgLayout,
             }}
           >
             {outlet}
