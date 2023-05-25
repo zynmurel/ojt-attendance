@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   query GetUser($username: String, $password: String) {
@@ -87,3 +87,28 @@ export const INTERN_LOGS = gql`
     }
   }
 `;
+
+export const FILTER_INTERN = (condition) => {
+  return gql`
+  query GetUser($search: String!) {
+    ojt_attendance_user(
+      where: ${condition}
+    ) {
+      contact_number
+      email
+      first_name
+      gender
+      hours_to_render
+      last_name
+      middle_name
+      password
+      role
+      school_address
+      school_name
+      username
+      start_date
+      id
+    }
+  }
+`;
+};
