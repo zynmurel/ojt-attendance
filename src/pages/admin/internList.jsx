@@ -9,10 +9,11 @@ import {
   Image,
   List,
 } from "antd";
-import { GET_INTERN } from "../../graphql/query";
-import { useQuery } from "@apollo/client";
+import { FILTER_INTERN, GET_INTERN } from "../../graphql/query";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { AiOutlineFileExcel } from "react-icons/ai";
 import moment from "moment";
+import { debounce } from "lodash";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { columns } from "../../tbl_col/internListTable";
@@ -26,7 +27,39 @@ const InternList = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-  const emptyData = [];
+  const [searchText, setSearchText] = useState("");
+  const [searchDate, setSearchDate] = useState(null);
+
+  let condition = `{
+    _and:[{ role: { _eq: "intern" } },{_or: [
+      { first_name: { _iregex: $search } }
+      { last_name: { _iregex: $search } }
+      { school_name: { _iregex: $search } }
+      { school_address: { _iregex: $search } }
+      { username: { _iregex: $search } }
+    ]}]
+  }`;
+  let tableData = InternData?.ojt_attendance_user;
+  if (searchDate && searchText) {
+    condition = `{_and:[{ role: { _eq: "intern" } },{_or: [{first_name: {_iregex: $search}}, {last_name: {_iregex: $search}}]},{start_date: {_gte:"${searchDate[0].format(
+      "YYYY-MM-DD"
+    )}T01:00:00"}}, {start_date: {_lte: "${searchDate[1].format(
+      "YYYY-MM-DD"
+    )}T21:59:59+00:00"}}]}`;
+  } else if (!searchText && searchDate) {
+    condition = `{_and: [{_or:[{first_name:{_iregex:$search}}]}{start_date: {_gte: "${searchDate[0].format(
+      "YYYY-MM-DD"
+    )}T01:00:00"}}, {start_date: {_lte: "${searchDate[1].format(
+      "YYYY-MM-DD"
+    )}T21:59:59+00:00"}}]}`;
+  }
+  const [getIntern, { loadingData, data }] = useLazyQuery(
+    FILTER_INTERN(condition)
+  );
+
+  if (searchDate || searchText) {
+    tableData = data?.ojt_attendance_user;
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,54 +74,26 @@ const InternList = () => {
     };
   }, []);
 
-  const filterDateRangeTable = (dates, dateStrings) => {
-    if (!dates) return setFilteredData(InternData?.ojt_attendance_user);
-    const [startDate, endDate] = dates;
-    console.log(startDate, endDate);
+  const handleInput = debounce((event) => {
+    const { value } = event.target;
+    setSearchText(event.target.value);
+    console.log(value);
+  }, 1000);
 
-    // Format the dates using Moment.js
-    const formattedStartDate = moment(startDate.format()).format("MM/DD/YYYY");
-    const formattedEndDate = moment(endDate.format()).format("MM/DD/YYYY");
-
-    // Filter the data based on the date range
-    const filteredResults = InternData?.ojt_attendance_user.filter(
-      (item) =>
-        (!formattedStartDate ||
-          moment(item.start_date).isSameOrAfter(formattedStartDate)) &&
-        (!formattedEndDate ||
-          moment(item.start_date).isSameOrBefore(formattedEndDate))
-    );
-    setFilteredData(filteredResults);
-    setDateRange(dates);
-  };
-
-  const onSearch = (value) => {
-    const filteredResults = InternData?.ojt_attendance_user.filter(
-      (item) =>
-        item.first_name.toLowerCase().includes(value.toLowerCase()) ||
-        item.last_name.toLowerCase().includes(value.toLowerCase()) ||
-        item.school_name.toLowerCase().includes(value.toLowerCase()) ||
-        item.school_address.toLowerCase().includes(value.toLowerCase()) ||
-        item.contact_number.toLowerCase().includes(value.toLowerCase()) ||
-        item.username.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(filteredResults);
-  };
+  useEffect(() => {
+    getIntern({ variables: { search: searchText } });
+  }, [searchDate, searchText]);
 
   const exportToExcel = () => {
-    console.log(
-      filteredData.length > 0 ? filteredData : InternData?.ojt_attendance_user
-    );
-    const exportData = InternData?.ojt_attendance_user.map((item) => ({
-      Name: `${item.first_name} ${item.last_name}`,
-      "School Name": item.school_name,
-      "School Address": item.school_address,
-      "Contact Number": item.contact_number,
-      Username: item.username,
-      "Start Date": moment(item.start_date).format("MM/DD/YY"),
+    const tableDataForExport = tableData.map((record) => ({
+      first_name: record.first_name,
+      school_name: record.school_name,
+      school_address: record.school_address,
+      contact_number: record.contact_number,
+      username: record.username,
+      start_date: moment(record.start_date).format("MM/DD/YY"),
     }));
-
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const worksheet = XLSX.utils.json_to_sheet(tableDataForExport);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Intern Attendance");
     const excelBuffer = XLSX.write(workbook, {
@@ -101,27 +106,29 @@ const InternList = () => {
     saveAs(data, `Intern_List.xlsx`);
   };
 
+  console.log(tableData);
   return (
-    <div className="bg-white">
+    <div>
       <Card className="  w-full h-18 mb-10  ">
         <div className="flex flex-col sm:flex-row  gap-6 items-center">
           <Title level={3}>Intern Attendance</Title>
 
           <RangePicker
             className="h-9 text-black sm:w-1/5  w-full  "
-            format="MM/DD/YY"
-            onChange={filterDateRangeTable}
+            onChange={(e) => {
+              setSearchDate(e);
+            }}
           />
 
           <Search
             placeholder="Input search text"
-            onChange={(e) => onSearch(e.target.value)}
             className=" sm:w-1/5  w-full "
+            onChange={handleInput}
           />
 
           <Button
-            style={{ backgroundColor: "#a8acb4" }}
-            className=" flex sm:flex-row items-center sm:self-start self-end"
+            type="primary"
+            className=" flex sm:flex-row items-center  "
             onClick={exportToExcel}
           >
             <AiOutlineFileExcel
@@ -133,58 +140,50 @@ const InternList = () => {
         </div>
       </Card>
       {isMobile ? (
-        <List
-          className=" px-10"
-          itemLayout="horizontal"
-          dataSource={
-            filteredData.length > 0
-              ? filteredData
-              : InternData?.ojt_attendance_user
-          }
-          renderItem={(record) => (
-            <List.Item>
-              <List.Item.Meta
-                title={
-                  <div className="flex gap-2">
-                    <Typography.Text className="capitalize">
-                      {record.first_name}
-                    </Typography.Text>
-                    <Typography.Text className="capitalize">
-                      {record.last_name}
-                    </Typography.Text>
-                  </div>
-                }
-                description={
-                  <>
-                    <div>School Name: {record.school_name}</div>
-                    <div>School Address: {record.school_address}</div>
-                    <div>Contact Number: {record.contact_number}</div>
-                    <div>Username: {record.username}</div>
-                    <div>
-                      Start Date: {moment(record.start_date).format("MM/DD/YY")}
+        <Card>
+          <List
+            className=" px-10"
+            itemLayout="horizontal"
+            dataSource={tableData}
+            renderItem={(record) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={
+                    <div className="flex gap22-2">
+                      <Typography.Text className="capitalize">
+                        {record.first_name}
+                      </Typography.Text>
+                      <Typography.Text className="capitalize">
+                        {record.last_name}
+                      </Typography.Text>
                     </div>
-                  </>
-                }
-              />
-              <Image
-                src={record.profile_pic}
-                alt="Profile"
-                style={{ width: 50, height: 50 }}
-              />
-            </List.Item>
-          )}
-        />
-      ) : dateRange && dateRange.length > 0 && filteredData.length === 0 ? (
-        <Table dataSource={emptyData} columns={columns} />
+                  }
+                  description={
+                    <>
+                      <div>School Name: {record.school_name}</div>
+                      <div>School Address: {record.school_address}</div>
+                      <div>Contact Number: {record.contact_number}</div>
+                      <div>Username: {record.username}</div>
+                      <div>
+                        Start Date:{" "}
+                        {moment(record.start_date).format("MM/DD/YY")}
+                      </div>
+                    </>
+                  }
+                />
+                <Image
+                  src={record.profile_pic}
+                  alt="Profile"
+                  style={{ width: 50, height: 50 }}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
       ) : (
-        <Table
-          dataSource={
-            filteredData.length > 0
-              ? filteredData
-              : InternData?.ojt_attendance_user
-          }
-          columns={columns}
-        />
+        <Card>
+          <Table dataSource={tableData} columns={columns} />
+        </Card>
       )}
     </div>
   );
