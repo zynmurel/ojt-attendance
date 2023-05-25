@@ -1,57 +1,90 @@
-// UI design
-import { Button, Card, Form, Input, Typography } from "antd";
-import { LOGIN_USER } from "../graphql/query";
-//text typography
-import { useLazyQuery } from "@apollo/client";
-import { useAuth } from "../hooks/Auth";
+import { useEffect } from "react";
+
+//third party libraries
+import { Button, Card, Form, Image, Input, Typography, theme } from "antd";
 import { Navigate } from "react-router-dom";
+import { LOGIN_USER } from "../graphql/query";
+import { useLazyQuery } from "@apollo/client";
+
+import { useAuth } from "../hooks/Auth";
+
+//text typography
 const { Text } = Typography;
-// Rules and Validation
-const rules = {
-  username: [{ required: true, message: "user not found" }],
-  password: [
-    {
-      required: true,
-      message: "password incorrect",
-    },
-  ],
-};
+
 const Login = () => {
   const { login, userToken } = useAuth();
   const [form] = Form.useForm();
 
+  //theme
+  const {
+    token: { colorPrimary },
+  } = theme.useToken();
+
+  // Rules and Validation
+  const rules = {
+    username: [{ required: true, message: "user not found" }],
+    password: [
+      {
+        required: true,
+        message: "password incorrect",
+      },
+    ],
+  };
+
+  //Image source
+  const imgSrc = {
+    dxLogo: "DigitalImage.jpg",
+    attendanceLogo: "InternAttendance.jpg",
+  };
+
   // data in  Query
-  const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER, {
-    variables: {
-      username: form.getFieldValue("username"),
-      password: form.getFieldValue("password"),
-    },
-  });
+  const [getUser, { data, loading, error }] = useLazyQuery(LOGIN_USER);
 
-  if (data?.ojt_attendance_user.length === 0) {
-    form.setFields([
-      {
-        name: "username",
-        errors: ["User not found"],
-      },
-      {
-        name: "password",
-        errors: ["User not found"],
-      },
-    ]);
-  }
+  useEffect(() => {
+    //checker if user was found on login
+    noUserFound();
 
-  //condition if has token redirect to dashboard
-  if (userToken) {
-    return <Navigate to="/" />;
-  }
-  // Condition in the admin to the dashboard
-  if (data && data.ojt_attendance_user.length !== 0) {
-    login(data.ojt_attendance_user[0]);
-  }
+    //condition if has token redirect to dashboard
+    noUserToken();
+
+    // Condition in the admin to the dashboard
+    toLogin();
+  }, [data]);
+
+  const noUserFound = () => {
+    if (data?.ojt_attendance_user.length === 0) {
+      form.setFields([
+        {
+          name: "username",
+          errors: ["User not found"],
+        },
+        {
+          name: "password",
+          errors: ["User not found"],
+        },
+      ]);
+    }
+  };
+
+  const noUserToken = () => {
+    if (userToken) {
+      return <Navigate to="/" />;
+    }
+  };
+
+  const toLogin = () => {
+    if (data && data.ojt_attendance_user.length !== 0) {
+      login(data.ojt_attendance_user[0]);
+    }
+  };
 
   const onLogin = (value) => {
-    getUser();
+    getUser({
+      variables: {
+        username: value.username,
+        password: value.password,
+      },
+    });
   };
   return (
     <div
@@ -60,13 +93,15 @@ const Login = () => {
     >
       <Card className=" flex items-center justify-center h-96 w-96">
         <div className=" flex flex-row justify-between items-center p-4">
-          <img
-            src="DigitalImage.jpg"
+          <Image
+            preview={false}
+            src={imgSrc.dxLogo}
             alt="Digital Image "
             style={{ height: "27px" }}
           />
-          <img
-            src="InternAttendance.jpg"
+          <Image
+            preview={false}
+            src={imgSrc.attendanceLogo}
             alt="Intern Attendace"
             style={{ height: "37px" }}
           />
@@ -84,11 +119,7 @@ const Login = () => {
           <Form.Item rules={rules.password} name="password">
             <Input.Password placeholder="password" />
           </Form.Item>
-          <Button
-            className="  text-white w-full"
-            style={{ backgroundColor: "#102c34" }}
-            htmlType="submit"
-          >
+          <Button type="primary" className="   w-full" htmlType="submit">
             Sign in
           </Button>
         </Form>

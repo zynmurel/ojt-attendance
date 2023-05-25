@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 import {
   INSERT_INTERN_ATTENDANCE,
   UPDATE_AM_OUT,
+  UPDATE_ATTENDANCE_LOG,
   UPDATE_PM_IN,
   UPDATE_PM_OUT,
 } from "../../../graphql/mutation";
@@ -16,7 +17,7 @@ const WebCamIntern = ({
   refetch,
   attendanceData,
   attendaceLoading,
-  openSuccessLogAttendance,
+  openLogAttendanceNotif,
 }) => {
   const { internId } = useAuth();
 
@@ -36,7 +37,7 @@ const WebCamIntern = ({
     return {
       onCompleted() {
         refetch();
-        openSuccessLogAttendance(
+        openLogAttendanceNotif(
           "success",
           "You have successfully timed in/out!"
         );
@@ -44,9 +45,7 @@ const WebCamIntern = ({
     };
   };
   const [addAttendance] = useMutation(INSERT_INTERN_ATTENDANCE, toRefetch());
-  const [updateAmOut] = useMutation(UPDATE_AM_OUT, toRefetch());
-  const [updatePmIn] = useMutation(UPDATE_PM_IN, toRefetch());
-  const [updatePmOut] = useMutation(UPDATE_PM_OUT, toRefetch());
+  const [updateAttendaceLogs] = useMutation(UPDATE_ATTENDANCE_LOG, toRefetch());
 
   const dataArray = attendanceData?.ojt_attendance_attendance;
   const activeInButton = ableInButton(dataArray);
@@ -55,7 +54,7 @@ const WebCamIntern = ({
   const onSubmitLog = (screenshot, dataArray, date) => {
     const time = moment().format();
     if (!screenshot) {
-      return openSuccessLogAttendance("error", "Photo not captured. Try again");
+      return openLogAttendanceNotif("error", "Photo not captured. Try again");
     }
     if (dataArray?.length === 0) {
       addAttendance({
@@ -74,37 +73,43 @@ const WebCamIntern = ({
         },
       });
     } else if (dataArray?.[0].out_am === null) {
-      updateAmOut({
+      updateAttendaceLogs({
         variables: {
-          id: dataArray[0].id,
-          img: screenshot,
-          time: time,
-          rendered: computeHoursRendered(
-            dataArray[0].total_rendered,
-            "in_am",
-            time
-          ),
+          intern_id: dataArray[0].id,
+          set: {
+            am_out_img: screenshot,
+            out_am: time,
+            total_rendered: computeHoursRendered(
+              dataArray[0].total_rendered,
+              "in_am",
+              time
+            ),
+          },
         },
       });
     } else if (dataArray?.[0].in_pm === null) {
-      updatePmIn({
+      updateAttendaceLogs({
         variables: {
-          id: dataArray[0].id,
-          img: screenshot,
-          time: time,
+          intern_id: dataArray[0].id,
+          set: {
+            pm_in_img: screenshot,
+            in_pm: time,
+          },
         },
       });
     } else if (dataArray?.[0].out_pm === null) {
-      updatePmOut({
+      updateAttendaceLogs({
         variables: {
-          id: dataArray[0].id,
-          img: screenshot,
-          time: time,
-          rendered: computeHoursRendered(
-            dataArray[0].total_rendered,
-            "in_pm",
-            time
-          ),
+          intern_id: dataArray[0].id,
+          set: {
+            pm_out_img: screenshot,
+            out_pm: time,
+            total_rendered: computeHoursRendered(
+              dataArray[0].total_rendered,
+              "in_pm",
+              time
+            ),
+          },
         },
       });
     }

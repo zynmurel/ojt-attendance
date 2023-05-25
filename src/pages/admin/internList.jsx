@@ -43,11 +43,15 @@ const InternList = () => {
   if (searchDate && searchText) {
     condition = `{_and:[{ role: { _eq: "intern" } },{_or: [{first_name: {_iregex: $search}}, {last_name: {_iregex: $search}}]},{start_date: {_gte:"${searchDate[0].format(
       "YYYY-MM-DD"
-    )}"}}, {start_date: {_lte: "${searchDate[1].format("YYYY-MM-DD")}"}}]}`;
+    )}T01:00:00"}}, {start_date: {_lte: "${searchDate[1].format(
+      "YYYY-MM-DD"
+    )}T21:59:59+00:00"}}]}`;
   } else if (!searchText && searchDate) {
     condition = `{_and: [{_or:[{first_name:{_iregex:$search}}]}{start_date: {_gte: "${searchDate[0].format(
       "YYYY-MM-DD"
-    )}"}}, {start_date: {_lte: "${searchDate[1].format("YYYY-MM-DD")}"}}]}`;
+    )}T01:00:00"}}, {start_date: {_lte: "${searchDate[1].format(
+      "YYYY-MM-DD"
+    )}T21:59:59+00:00"}}]}`;
   }
   const [getIntern, { loadingData, data }] = useLazyQuery(
     FILTER_INTERN(condition)
@@ -81,7 +85,15 @@ const InternList = () => {
   }, [searchDate, searchText]);
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(tableData);
+    const tableDataForExport = tableData.map((record) => ({
+      first_name: record.first_name,
+      school_name: record.school_name,
+      school_address: record.school_address,
+      contact_number: record.contact_number,
+      username: record.username,
+      start_date: moment(record.start_date).format("MM/DD/YY"),
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(tableDataForExport);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Intern Attendance");
     const excelBuffer = XLSX.write(workbook, {
@@ -93,6 +105,8 @@ const InternList = () => {
     });
     saveAs(data, `Intern_List.xlsx`);
   };
+
+  console.log(tableData);
   return (
     <div>
       <Card className="  w-full h-18 mb-10  ">
@@ -101,7 +115,6 @@ const InternList = () => {
 
           <RangePicker
             className="h-9 text-black sm:w-1/5  w-full  "
-            format="MM/DD/YY"
             onChange={(e) => {
               setSearchDate(e);
             }}
@@ -114,7 +127,7 @@ const InternList = () => {
           />
 
           <Button
-            style={{ backgroundColor: "#a8acb4" }}
+            type="primary"
             className=" flex sm:flex-row items-center  "
             onClick={exportToExcel}
           >

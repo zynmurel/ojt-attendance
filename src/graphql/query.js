@@ -69,9 +69,9 @@ export const GET_ATTENDACE_BY_INTERN = gql`
   }
 `;
 
-export const INTERN_LOGS = gql`
-  query GetAttendance($id: uuid) {
-    ojt_attendance_attendance(where: { intern_id: { _eq: $id } }) {
+export const INTERN_LOGS = (condition) => gql`
+  query GetAttendance($intern_id: uuid) {
+    ojt_attendance_attendance(where: ${condition}) {
       am_in_img
       am_out_img
       date
@@ -102,6 +102,7 @@ export const FILTER_INTERN = (condition) => {
       last_name
       middle_name
       password
+      profile_pic
       role
       school_address
       school_name
