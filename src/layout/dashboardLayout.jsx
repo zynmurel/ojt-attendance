@@ -6,6 +6,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Grid, Layout } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import LayoutContent from "../components/layout/layoutContent";
+import UserProfile from "./userProfile";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -45,7 +46,7 @@ const DashboardLayout = () => {
             style={{ backgroundColor: "#ffff", padding: 0 }}
             className=" flex items-center justify-start"
           >
-            <div className="flex justify-between md:justify-start w-full p-3 items-center">
+            <div className="flex justify-between w-full p-3 items-center">
               {!isMobileView &&
                 React.createElement(
                   collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -58,6 +59,7 @@ const DashboardLayout = () => {
                 className=" w-28 flex sm:justify-end"
                 src="/InternAttendance.jpg"
               />
+              <UserProfile />
             </div>
           </Header>
           <Content

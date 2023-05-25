@@ -7,7 +7,7 @@ import {
   AiOutlineClockCircle,
   AiOutlineCamera,
 } from "react-icons/ai";
-import { BiLogOut } from "react-icons/bi";
+
 import { CloseOutlined } from "@ant-design/icons";
 import Sider from "antd/es/layout/Sider";
 import { Button, Drawer, Menu } from "antd";
@@ -63,14 +63,6 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
                 paddingTop: "2.5rem",
               }}
             />
-            <Button
-              type="text"
-              className=" text-red-500 text-sm flex items-center justify-center gap-2 mx-auto  mt-auto mb-5 w-full"
-              onClick={() => logout()}
-            >
-              Logout
-              <BiLogOut fontSize={20} />
-            </Button>
           </div>
         </Sider>
       ) : (
@@ -103,14 +95,6 @@ const LayoutContent = ({ collapsed, setCollapsed, isMobileView }) => {
               onClick={handleMenuMobileClick}
               defaultSelectedKeys={[`${location.pathname}`]}
             />
-            <Button
-              type="text"
-              className=" text-red-500 text-sm flex items-center justify-center gap-2 mx-auto  mt-auto mb-5 w-full"
-              onClick={() => logout()}
-            >
-              Logout
-              <BiLogOut fontSize={20} />
-            </Button>
           </div>
         </Drawer>
       )}
