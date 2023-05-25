@@ -1,13 +1,14 @@
 import React, { createContext, useEffect, useState } from "react";
 
+//third party libraries
 import { useOutlet } from "react-router-dom";
-
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Grid, Layout, notification, theme } from "antd";
+import { Grid, Image, Layout, notification, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import LayoutContent from "../components/layout/layoutContent";
 
 export const MyContext = createContext(0);
+
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -20,6 +21,7 @@ const DashboardLayout = () => {
     });
   };
 
+  //theme
   const {
     token: { colorBgLayout, colorBgBase },
   } = theme.useToken();
@@ -58,7 +60,7 @@ const DashboardLayout = () => {
           />
           <Layout>
             <Header
-              style={{ backgroundColor: "#ffff", padding: 0 }}
+              style={{ backgroundColor: colorBgBase, padding: 0 }}
               className=" flex items-center justify-start"
             >
               <div className="flex justify-between md:justify-start w-full p-3 items-center">
@@ -70,16 +72,18 @@ const DashboardLayout = () => {
                       onClick: toggleSideBar,
                     }
                   )}
-                <img
-                  className=" w-28 flex sm:justify-end"
-                  src="/InternAttendance.jpg"
+                <Image
+                  preview={false}
+                  width={140}
+                  className=" flex sm:justify-end"
+                  src={imgSrc}
                 />
               </div>
             </Header>
             <Content
               className=" p-5 overflow-auto h-96"
               style={{
-                background: "#989ca4",
+                background: colorBgLayout,
               }}
             >
               {outlet}
