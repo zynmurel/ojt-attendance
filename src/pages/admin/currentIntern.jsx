@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Skeleton, Typography, message } from "antd";
+import { Image, Skeleton, Typography, message } from "antd";
 // ant d UI for design
 import React, { useEffect } from "react";
 import { GET_INTERN } from "../../graphql/query";
@@ -66,13 +66,15 @@ function CurrentIntern() {
           </div>
         )}
         {data &&
+          !loading &&
           data.ojt_attendance_user.map((intern) => {
             const time = computeHrMn(intern);
             let fullname = intern.first_name + " " + intern.last_name;
             return (
               <div className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded">
                 <div className=" h-full rounded flex items-center  overflow-hidden">
-                  <img
+                  <Image
+                    preview={false}
                     src={intern.profile_pic}
                     alt="Sample Images"
                     className=" w-full rounded"

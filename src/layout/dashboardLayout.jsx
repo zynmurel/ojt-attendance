@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useOutlet } from "react-router-dom";
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Grid, Layout, notification } from "antd";
+import { Grid, Layout, notification, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import LayoutContent from "../components/layout/layoutContent";
 
@@ -20,6 +20,10 @@ const DashboardLayout = () => {
     });
   };
 
+  const {
+    token: { colorBgLayout, colorBgBase },
+  } = theme.useToken();
+  const imgSrc = "/InternAttendance.jpg";
   const outlet = useOutlet();
   const screens = Grid.useBreakpoint();
 
@@ -41,6 +45,7 @@ const DashboardLayout = () => {
   const toggleSideBar = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <>
       <MyContext.Provider value={{ handleSuccessAddIntern }}>
