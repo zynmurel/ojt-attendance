@@ -71,13 +71,15 @@ function CurrentIntern() {
             const time = computeHrMn(intern);
             let fullname = intern.first_name + " " + intern.last_name;
             return (
-              <div className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded">
+              <div
+                key={intern.id}
+                className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded"
+              >
                 <div className=" h-full rounded flex items-center  overflow-hidden">
-                  <Image
-                    preview={false}
+                  <img
                     src={intern.profile_pic}
                     alt="Sample Images"
-                    className=" w-full rounded"
+                    className=" w-full h-full rounded object-cover"
                   />
                 </div>
                 <div className=" w-full m-h-24 self-end p-5">

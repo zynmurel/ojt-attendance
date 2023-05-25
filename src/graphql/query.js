@@ -19,6 +19,7 @@ export const LOGIN_USER = gql`
       username
       start_date
       id
+      profile_pic
     }
   }
 `;
