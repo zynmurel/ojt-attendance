@@ -6,7 +6,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Grid, Image, Layout, notification, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import LayoutContent from "../components/layout/layoutContent";
-import UserProfile from "./userProfile";
+import UserProfile from "../components/userProfile";
 
 export const MyContext = createContext(0);
 
