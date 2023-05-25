@@ -8,15 +8,19 @@ import App from "./App";
 import { client } from "./lib/apollo";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
+import { ConfigProvider } from "antd";
+import theme from "./theme.json";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </ApolloProvider>
+    <ConfigProvider theme={theme}>
+      <ApolloProvider client={client}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ApolloProvider>
+    </ConfigProvider>
   </React.StrictMode>
 );
 
