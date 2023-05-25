@@ -1,13 +1,17 @@
 import React from "react";
 
 //third party libraries
-import { AiOutlineUser, AiOutlineDown } from "react-icons/ai";
+import { AiOutlineDown } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import { Avatar, Typography, Dropdown, Button } from "antd";
+import { Avatar, Typography, Dropdown, Button, theme } from "antd";
 
 import { useAuth } from "../hooks/Auth";
 
 const UserProfile = () => {
+  const {
+    token: { colorPrimary, colorBgBase },
+  } = theme.useToken();
   const { logout, userRole, userName, userProfile } = useAuth();
   const { Text } = Typography;
   const dropdownRender = () => (
@@ -29,7 +33,16 @@ const UserProfile = () => {
         <div className="h-full flex w-full flex-nowrap items-center">
           <div className=" w-10 h-10 rounded-full flex items-center  overflow-hidden">
             {userRole == "admin" && (
-              <Avatar size="large" icon={<AiOutlineUser />} />
+              <Avatar
+                size="large"
+                style={{ backgroundColor: colorBgBase }}
+                icon={
+                  <FaUserCircle
+                    className=" h-full w-full"
+                    color={colorPrimary}
+                  />
+                }
+              />
             )}
             {userRole != "admin" && (
               <img
