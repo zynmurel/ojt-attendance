@@ -64,9 +64,9 @@ const DashboardLayout = () => {
           <Layout>
             <Header
               style={{ backgroundColor: colorBgBase, padding: 0 }}
-              className=" flex items-center justify-start"
+              className=" flex items-center justify-between"
             >
-              <div className="flex justify-between sm:justify-end lg:justify-start w-full p-3 items-center">
+              <div className="flex justify-between sm:justify-end lg:justify-start p-3 items-center">
                 {!isMobileView &&
                   React.createElement(
                     collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -77,6 +77,7 @@ const DashboardLayout = () => {
                   )}
                 <Image preview={false} width={140} src={imgSrc} />
               </div>
+              <UserProfile />
             </Header>
             <Content
               className=" p-5 overflow-auto h-96"

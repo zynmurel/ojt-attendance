@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const userRole = localStorage.getItem("user_role");
   const internId = localStorage.getItem("intern_id");
   const userName = localStorage.getItem("user_name");
+  const userProfile = localStorage.getItem("user_profile");
   // call this function to set user token and set data to local storage
   const login = (token) => {
     localStorage.setItem(
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user_role", token.role);
     localStorage.setItem("intern_id", token.id);
     localStorage.setItem("user_name", `${token.first_name} ${token.last_name}`);
+    localStorage.setItem("user_profile", token.profile_pic);
     window.location = "/";
   };
   const logout = () => {
@@ -29,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     userRole,
     internId,
     userName,
+    userProfile,
   }));
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
