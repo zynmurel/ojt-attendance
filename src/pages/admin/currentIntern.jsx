@@ -76,8 +76,7 @@ function CurrentIntern() {
                 className="flex flex-col m-3 w-64 h-96 bg-white hover:drop-shadow-2xl	 cursor-pointer hover:scale-105 ease-in duration-100 rounded"
               >
                 <div className=" h-full rounded flex items-center  overflow-hidden">
-                  <Image
-                    preview={false}
+                  <img
                     src={intern.profile_pic}
                     alt="Sample Images"
                     className=" w-full h-full rounded object-cover"
