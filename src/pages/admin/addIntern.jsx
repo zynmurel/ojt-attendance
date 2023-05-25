@@ -14,23 +14,41 @@ import { AiOutlineFileAdd } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { ADD_INTERN } from "../../graphql/mutation";
 import moment from "moment";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MyContext } from "../../layout/dashboardLayout";
 const { Text } = Typography;
 const AddIntern = () => {
-  const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (type, message, description) => {
-    api[type]({
+  const [imageToView, setImageToView] = useState(null);
+  const { handleSuccessAddIntern } = useContext(MyContext);
+  //notification
+  const [errorAddIntern, contextHolder] = notification.useNotification();
+  const handleErrorAddIntern = (type, message, description) => {
+    errorAddIntern[type]({
       message: message,
       description: description,
     });
   };
-  const [imageToView, setImageToView] = useState(null);
+
+  //navigation and form
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  //
   const [addIntern] = useMutation(ADD_INTERN, {
     onCompleted() {
-      navigate("/");
+      handleSuccessAddIntern(
+        "success",
+        "Added Intern Success",
+        "Successfully added!"
+      );
+      navigate("/admin");
+    },
+    onError() {
+      handleErrorAddIntern(
+        "error",
+        "Add Intern Error",
+        "Username already used!"
+      );
     },
   });
 
@@ -95,12 +113,6 @@ const AddIntern = () => {
         contact_number: values.contact_number,
         email: values.email,
       },
-    }).catch((error) => {
-      openNotificationWithIcon(
-        "error",
-        "Add Intern Error",
-        "Username already used!"
-      );
     });
   };
   return (
@@ -199,15 +211,15 @@ const AddIntern = () => {
               name="school_address"
               rules={rules.school_address}
             >
-              <Input className=" w-full" />
+              <Input className="lg:w-2/3 sm:w-full" />
             </Form.Item>
           </div>
-          <div className=" grid lg:grid-cols-5 w-full lg:mt-20 sm:grid-cols-1">
+          <div className=" grid lg:grid-cols-5 w-full lg:mt-20 gap-5 ">
             <Form.Item
               label="Username"
               name="username"
               rules={rules.username}
-              className="w-3/4"
+              className="lg:w-3/4 sm:w-full "
             >
               <Input className="w-full" />
             </Form.Item>
@@ -224,7 +236,7 @@ const AddIntern = () => {
               label="Hours to render"
               name="hours_to_render"
               rules={rules.hours_to_render}
-              className="w-3/4"
+              className="lg:w-3/4 sm:w-full"
             >
               <InputNumber className=" w-full" />
             </Form.Item>
@@ -232,15 +244,16 @@ const AddIntern = () => {
               label="Contact Number"
               name="contact_number"
               rules={rules.contact_number}
-              className="w-3/4"
+              className="lg:w-3/4 sm:w-full"
             >
               <Input className=" w-full" />
             </Form.Item>
+
             <Form.Item
               label="Email"
               name="email"
               rules={rules.email}
-              className="w-3/4"
+              className="lg:w-3/4 sm:w-full"
             >
               <Input className=" w-full" />
             </Form.Item>
