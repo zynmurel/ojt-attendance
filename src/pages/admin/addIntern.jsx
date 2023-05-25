@@ -15,7 +15,6 @@ import {
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { ADD_INTERN } from "../../graphql/mutation";
-import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
 import UploadProfile from "../../components/uploadProfile";
@@ -42,11 +41,7 @@ const AddIntern = () => {
   //mutation
   const [addIntern] = useMutation(ADD_INTERN, {
     onCompleted() {
-      handleSuccessAddIntern(
-        "success",
-        "Added Intern Success",
-        "Successfully added!"
-      );
+      handleSuccessAddIntern("success", "Success!", "Intern Added!");
       navigate("/admin");
     },
     onError() {
@@ -111,7 +106,7 @@ const AddIntern = () => {
         first_name: values.first_name,
         middle_name: values.middle_name,
         last_name: values.last_name,
-        start_date: moment(values.start_date),
+        start_date: values.start_date.format(),
         school_name: values.school_name,
         school_address: values.school_address,
         username: values.username,
@@ -254,7 +249,6 @@ const AddIntern = () => {
             >
               <Input className=" w-full" />
             </Form.Item>
-
             <Form.Item
               label="Email"
               name="email"

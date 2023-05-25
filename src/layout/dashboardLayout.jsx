@@ -2,7 +2,6 @@ import React, { createContext, useEffect, useState } from "react";
 
 //third party libraries
 import { useOutlet } from "react-router-dom";
-
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Grid, Image, Layout, notification, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";

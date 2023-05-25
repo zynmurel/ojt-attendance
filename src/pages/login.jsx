@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 //third party libraries
-import { Button, Card, Form, Image, Input, Typography, theme } from "antd";
+import { Button, Card, Form, Image, Input, Typography } from "antd";
 import { Navigate } from "react-router-dom";
 import { LOGIN_USER } from "../graphql/query";
 import { useLazyQuery } from "@apollo/client";
@@ -14,11 +14,6 @@ const { Text } = Typography;
 const Login = () => {
   const { login, userToken } = useAuth();
   const [form] = Form.useForm();
-
-  //theme
-  const {
-    token: { colorPrimary },
-  } = theme.useToken();
 
   // Rules and Validation
   const rules = {
@@ -119,7 +114,7 @@ const Login = () => {
           <Form.Item rules={rules.password} name="password">
             <Input.Password placeholder="password" />
           </Form.Item>
-          <Button type="primary" className="   w-full" htmlType="submit">
+          <Button type="primary" className=" w-full" htmlType="submit">
             Sign in
           </Button>
         </Form>
