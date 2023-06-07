@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 //third party libraries
-import { Button, Card, Form, Image, Input, Typography } from "antd";
+import { Button, Card, Form, Image, Input, Typography, theme } from "antd";
 import { Navigate } from "react-router-dom";
 import { LOGIN_USER } from "../graphql/query";
 import { useLazyQuery } from "@apollo/client";
@@ -26,6 +26,9 @@ const Login = () => {
     ],
   };
 
+  const {
+    token: { colorPrimary },
+  } = theme.useToken();
   //Image source
   const imgSrc = {
     dxLogo: "DigitalImage.jpg",
@@ -55,7 +58,7 @@ const Login = () => {
         },
         {
           name: "password",
-          errors: ["User not found"],
+          errors: ["User not   found"],
         },
       ]);
     }
@@ -84,7 +87,7 @@ const Login = () => {
   return (
     <div
       className=" h-screen w-full flex items-center justify-center"
-      style={{ backgroundColor: "#eaeff5" }}
+      style={{ backgroundColor: colorPrimary }}
     >
       <Card className=" flex items-center justify-center h-96 w-96">
         <div className=" flex flex-row justify-between items-center p-4">

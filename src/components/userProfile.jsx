@@ -18,7 +18,7 @@ const UserProfile = () => {
     <div className="p-1 w-full bg-white rounded-md flex items-center justify-center">
       <Button
         danger
-        className="w-full flex gap-2 "
+        className="w-full flex gap-2 justify-center "
         type="text"
         onClick={logout}
       >

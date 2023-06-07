@@ -10,11 +10,7 @@ function Internlogs() {
   const { internId } = useAuth();
   const [datePicked, setDatePicked] = useState(null);
   let condition = `{ intern_id: { _eq: $intern_id } }`;
-  if (datePicked) {
-    condition = `{_and:[{ intern_id: { _eq: $intern_id } }, {date:{_gte:"${datePicked?.[0].format(
-      "MM/DD/YYYY"
-    )}"}}, {date:{_lte:"${datePicked?.[1].format("MM/DD/YYYY")}"}}]}`;
-  }
+   
   const [getInternLogs, { data }] = useLazyQuery(INTERN_LOGS(condition));
   useEffect(() => {
     getInternLogs({
